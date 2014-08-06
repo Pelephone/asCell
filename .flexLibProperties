@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<flexLibProperties includeAllClasses="true" useMultiPlatformConfig="false" version="3">
+  <includeClasses>
+    <classEntry path="bitmapEngine.BmpRenderMgr"/>
+    <classEntry path="asCachePool.QueueDiskCache"/>
+    <classEntry path="asCachePool.CacheType"/>
+    <classEntry path="mapper.ReflCacheMgr"/>
+    <classEntry path="bitmapEngine.container.SpriteBitmap"/>
+    <classEntry path="asCachePool.interfaces.IRecycle"/>
+    <classEntry path="asCachePool.interfaces.IReset"/>
+    <classEntry path="utils.tools.BytesCalcTool"/>
+    <classEntry path="bitmapEngine.IMovieClip"/>
+    <classEntry path="utils.TweenVars"/>
+    <classEntry path="utils.collection.QuadTree2"/>
+    <classEntry path="bitmapEngine.bak.BmpConvert"/>
+    <classEntry path="bitmapEngine.DspBitmap"/>
+    <classEntry path="bitmapEngine.bak.BitmapConvert"/>
+    <classEntry path="bitmapEngine.bak.IBmpConvert"/>
+    <classEntry path="asSkinStyle.parser.XMLStypeParser"/>
+    <classEntry path="asSkinStyle.data.StyleVars"/>
+    <classEntry path="asSkinStyle.parser.DecodeXmlStyle"/>
+    <classEntry path="asSkinStyle.ReflPositionInfo"/>
+    <classEntry path="bitmapEngine.BigBitmap"/>
+    <classEntry path="asCachePool.QueueArray"/>
+  </includeClasses>
+  <includeResources/>
+  <namespaceManifests/>
+</flexLibProperties>
