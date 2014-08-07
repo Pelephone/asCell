@@ -22,7 +22,7 @@
 	<IS_NEAR>1</IS_NEAR>
 	
 	<!-- 需要生成的属性名 -->
-	<REF_ATTR_LS>x,y,width,height,uiType,bgSrc,_bgSrc</REF_ATTR_LS>
+	<REF_ATTR_LS>x,y,width,height,uiType,bgSrc,_bgSrc,text</REF_ATTR_LS>
 	<!-- 需要四舍五入转成整数的属性 -->
 	<INIT_ATTR_LS>x,y,width,height</INIT_ATTR_LS>
 
@@ -55,7 +55,9 @@
 	<isAutoDecode>0</isAutoDecode>
 	
 	<!-- 是否创建属性对象代码 -->
-	<isAttrCode>0</isAttrCode>
+	<isAttrCode>1</isAttrCode>
+	<!-- 是否创建子项对象代码 -->
+	<isCreateChild>0</isCreateChild>
 	
 	<!-- 是否生成默认值为0的属性 -->
 	<IS_DO_DEFAULT>0</IS_DO_DEFAULT>
