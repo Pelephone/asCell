@@ -242,6 +242,9 @@ package asSkinStyle
 			if(!dsp)
 				return null;
 			
+			if(dsp.hasOwnProperty(UI_TYPE_ATTR))
+				dsp[UI_TYPE_ATTR] = uiType;
+			
 			return dsp;
 		}
 		
