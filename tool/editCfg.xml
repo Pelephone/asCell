@@ -41,7 +41,7 @@
 	
 	
 	<!-- uiType类型 -->
-	<uiTypeLs>img,scale9,button,button2,text,resText,list</uiTypeLs>
+	<uiTypeLs>img,scale9,button,button2,text,resText,list,custom</uiTypeLs>
 	
 	<!-- 库目录搜索关键字 -->
 	<searchKeyLs>all,/skinUI/,/zh_CN/,/mainUI/,/game/</searchKeyLs>
