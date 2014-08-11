@@ -180,6 +180,8 @@ package asSkinStyle
 			return true;
 		}
 		
+		public static var langMap:Object = {};
+		
 		/**
 		 * 将xml上的位置信息解析到子项
 		 * @param xml
@@ -208,13 +210,19 @@ package asSkinStyle
 					var n:String = itm2.name();
 					if(n == "name")
 						continue;
+					if(String(val).indexOf("@")==0)
+					{
+						var s3:String = String(val).substr(1);
+						if(s3 in langMap)
+							val = langMap[s3]
+					}
 					if(String(val).indexOf("$")==0)
 					{
 						var s2:String = String(val).substr(1);
 						if(refValue.hasOwnProperty(s2))
 							val = refValue[s2];
 					}
-					else if(String(n).indexOf("_")==0 && isChangeValue)
+					if(String(n).indexOf("_")==0 && isChangeValue)
 					{
 						n = String(n).substr(1);
 					}
