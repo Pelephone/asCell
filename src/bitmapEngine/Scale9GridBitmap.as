@@ -110,8 +110,8 @@ package bitmapEngine
 			if(!source || !_scale9Grid)
 				return;
 			
-			var rightWidth:int = oldWidth - _scale9Grid.x - _scale9Grid.width;
-			var bottomHeight:int = oldHeight - _scale9Grid.y - _scale9Grid.height;
+			var rightWidth:int = oldWidth - _scale9Grid.width;
+			var bottomHeight:int = oldHeight - _scale9Grid.height;
 			
 			var xAry:Vector.<int> = new <int>[0,_scale9Grid.x,(_width - rightWidth)];
 			var widthAry:Vector.<int> = new <int>[_scale9Grid.x,(_width - _scale9Grid.x - rightWidth),rightWidth];
@@ -189,10 +189,10 @@ package bitmapEngine
 			
 //			var bmpAry:Vector.<Bitmap> = new <Bitmap>[_topLeft,_top,_topRight,_left,_center,_right,_bottomLeft,_bottom,_bottomRight];
 			// 左中右格子宽,x坐标数据
-			var xAry:Vector.<int> = new <int>[0,_scale9Grid.x,(_scale9Grid.width + _scale9Grid.x)];
+			var xAry:Vector.<int> = new <int>[0,_scale9Grid.x,_scale9Grid.width];
 			var widthAry:Vector.<int> = new <int>[_scale9Grid.x,_scale9Grid.width,(bitmapData.width - _scale9Grid.width)];
 			// 上中下格子高,y坐标数据
-			var yAry:Vector.<int> = new <int>[0,_scale9Grid.y,(_scale9Grid.height + _scale9Grid.y)];
+			var yAry:Vector.<int> = new <int>[0,_scale9Grid.y,_scale9Grid.height];
 			var heightAry:Vector.<int> = new <int>[_scale9Grid.y,_scale9Grid.height,(bitmapData.height - _scale9Grid.height)];
 
 			

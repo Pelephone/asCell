@@ -200,6 +200,7 @@ package asSkinStyle
 					if(dsp == null)
 						continue;
 					dspc.addChild(dsp);
+					dsp.name = vName;
 				}
 				for each (var itm2:Object in itmX.attributes()) 
 				{
@@ -212,6 +213,10 @@ package asSkinStyle
 						var s2:String = String(val).substr(1);
 						if(refValue.hasOwnProperty(s2))
 							val = refValue[s2];
+					}
+					else if(String(n).indexOf("_")==0 && isChangeValue)
+					{
+						n = String(n).substr(1);
 					}
 					dsp[n] = val;
 				}
@@ -227,6 +232,11 @@ package asSkinStyle
 				decodeXmlToChild(cdsp,itmX);
 			}
 		}
+		
+		/**
+		 * 是否去掉临时变量的下划线"_"
+		 */
+		public static var isChangeValue:Boolean = true;
 		
 		// 通过ui类型生成显示对象
 		private static function typeToDsp(uiType:String):DisplayObject
