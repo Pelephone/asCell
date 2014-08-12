@@ -29,7 +29,7 @@
 	<IS_NEAR>1</IS_NEAR>
 	
 	<!-- 需要生成的属性名 -->
-	<REF_ATTR_LS>x,y,width,height,uiType,bgSrc,_bgSrc,text,_labelNormal,labelNormal</REF_ATTR_LS>
+	<REF_ATTR_LS>x,y,width,height,uiType,bgSrc,_bgSrc,text,label,_label,_labelNormal,labelNormal</REF_ATTR_LS>
 	<!-- 需要四舍五入转成整数的属性 -->
 	<INIT_ATTR_LS>x,y,width,height</INIT_ATTR_LS>
 
