@@ -176,6 +176,8 @@ package asSkinStyle
 					return false;
 				else if(intAttrLs.indexOf(attrName)>=0 && int(dsp[attrName])==0)
 					return false;
+				if(dsp[attrName]==null)
+					return false;
 			}
 			return true;
 		}
