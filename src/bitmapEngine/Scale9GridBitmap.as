@@ -1,8 +1,5 @@
 package bitmapEngine
 {
-	import TimerUtils.ExpireTimer;
-	import TimerUtils.StaticEnterFrame;
-	
 	import flash.display.Bitmap;
 	import flash.display.BitmapData;
 	import flash.display.DisplayObject;
@@ -12,6 +9,9 @@ package bitmapEngine
 	import flash.geom.Matrix;
 	import flash.geom.Point;
 	import flash.geom.Rectangle;
+	
+	import TimerUtils.ExpireTimer;
+	import TimerUtils.StaticEnterFrame;
 	
 	/**
 	 * 支持9格缩放的位图(生成的位图bitmapData数据做有缓存处理)
@@ -112,11 +112,13 @@ package bitmapEngine
 			
 			var rightWidth:int = oldWidth - _scale9Grid.width;
 			var bottomHeight:int = oldHeight - _scale9Grid.height;
+			var dh:int = (_height>0)?_height:oldHeight;
+			var dw:int = (_width>0)?_width:oldWidth;
 			
-			var xAry:Vector.<int> = new <int>[0,_scale9Grid.x,(_width - rightWidth)];
-			var widthAry:Vector.<int> = new <int>[_scale9Grid.x,(_width - _scale9Grid.x - rightWidth),rightWidth];
-			var yAry:Vector.<int> = new <int>[0,_scale9Grid.y,(_height - bottomHeight)];
-			var heightAry:Vector.<int> = new <int>[_scale9Grid.y,(_height - _scale9Grid.y - bottomHeight),bottomHeight];
+			var xAry:Vector.<int> = new <int>[0,_scale9Grid.x,(dw - rightWidth)];
+			var widthAry:Vector.<int> = new <int>[_scale9Grid.x,(dw - _scale9Grid.x - rightWidth),rightWidth];
+			var yAry:Vector.<int> = new <int>[0,_scale9Grid.y,(dh - bottomHeight)];
+			var heightAry:Vector.<int> = new <int>[_scale9Grid.y,(dh - _scale9Grid.y - bottomHeight),bottomHeight];
 
 			for (var j:int = 0; j < yAry.length; j++)
 			{
