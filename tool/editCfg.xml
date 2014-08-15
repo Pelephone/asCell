@@ -29,7 +29,7 @@
 	<IS_NEAR>1</IS_NEAR>
 	
 	<!-- 需要生成的属性名 -->
-	<REF_ATTR_LS>x,y,width,height,uiType,bgSrc,_bgSrc,text,label,_label,_labelNormal,labelNormal</REF_ATTR_LS>
+	<REF_ATTR_LS>x,y,width,height,uiType,bgSrc,text,label,labelNormal,linkageVars,alighType</REF_ATTR_LS>
 	<!-- 需要四舍五入转成整数的属性 -->
 	<INIT_ATTR_LS>x,y,width,height</INIT_ATTR_LS>
 
@@ -47,7 +47,7 @@
 	<searchKeyLs>all,/skinUI/,/zh_CN/,/mainUI/,/game/</searchKeyLs>
 	
 	<!-- 皮肤文件路径 -->
-	<skinCfgPath>E:/haxe/FirstGame/assets/cfg/skin/$1.xml</skinCfgPath>
+	<skinCfgPath>E:/haxe/FirstGame/assets/cfg/skin/GamePauseView.xml</skinCfgPath>
 	
 	<!-- 扫描文件路径 -->
 	<scanFile>E:/haxe/FirstGame/assets/resLoadInfo.dt</scanFile>
@@ -59,7 +59,7 @@
 	<isChild>1</isChild>
 	
 	<!-- 是否调用编辑器内置的反向代码  -->
-	<isAutoDecode>0</isAutoDecode>
+	<isAutoDecode>1</isAutoDecode>
 	
 	<!-- 是否创建属性对象代码 -->
 	<isAttrCode>1</isAttrCode>
