@@ -234,7 +234,7 @@ package asSkinStyle
 					} 
 					catch(error:Error) 
 					{
-						
+						throw new Error(itm2+"节点有问题,"+n+"属性斌值有问题");
 					}
 				}
 				
