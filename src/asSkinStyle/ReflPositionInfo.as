@@ -228,7 +228,14 @@ package asSkinStyle
 					{
 						n = String(n).substr(1);
 					}
-					dsp[n] = val;
+					try
+					{
+						dsp[n] = val;
+					} 
+					catch(error:Error) 
+					{
+						
+					}
 				}
 				
 				
