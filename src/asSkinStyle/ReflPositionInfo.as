@@ -234,6 +234,7 @@ package asSkinStyle
 					} 
 					catch(error:Error) 
 					{
+						if(String(val).charAt(0) != "$")
 						throw new Error(String(itmX)+"节点有问题\n\""+vName+"\"项的\""+n+"\"属性斌值有问题");
 					}
 				}
