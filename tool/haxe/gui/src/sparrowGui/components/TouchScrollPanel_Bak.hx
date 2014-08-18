@@ -1,4 +1,4 @@
-package sparrowGui.components;
+﻿package sparrowGui.components;
 import flash.display.DisplayObject;
 import flash.events.Event;
 import flash.events.MouseEvent;
@@ -13,7 +13,7 @@ import sparrowGui.skinStyle.StyleKeys;
  * 仿手机拖动滚动条
  * @author Pelephone
  */
-class TouchScrollPanel extends Component
+class TouchScrollPanel_Bak extends Component
 {
 	public function new(target:DisplayObject=null) 
 	{
@@ -106,18 +106,18 @@ class TouchScrollPanel extends Component
 		
 		var toY:Float = 0;
 		var toX:Float = 0;
-		if (scrollBound.height > _height)
+		if (scrollDsp.height > _height)
 		{
 			var endy:Float = lastMPt.y + (scrollDsp.stage.mouseY - lastMPt.y) * upSpeed;
 			var dy:Float = endy - downMPt.y;
 			toY = downSPt.y + dy;
-			if (toY > scrollBound.y)
-			toY = scrollBound.y;
-			else if (toY < (height - scrollBound.height + scrollBound.y))
-			toY = height - scrollBound.height + scrollBound.y;
+			if (toY > 0)
+			toY = 0;
+			else if (toY < (height-scrollDsp.height))
+			toY = (height - scrollDsp.height);
 		}
 		
-		if (scrollBound.width > _width)
+		if (scrollDsp.width > _width)
 		{
 			var endx:Float = lastMPt.x + (scrollDsp.stage.mouseX - lastMPt.x) * upSpeed;
 			var dx:Float = endx - downMPt.x;
@@ -206,7 +206,7 @@ class TouchScrollPanel extends Component
 		lastMPt.x = scrollDsp.stage.mouseX;
 		lastMPt.y = scrollDsp.stage.mouseY;
 		
-		// 正在自动滚动的过程
+		// 正在滚动的过程
 		if(hasChange)
 		{
 			var sy:Float = getValueY() * (height - scrollSlider.height);
@@ -274,7 +274,7 @@ class TouchScrollPanel extends Component
 	// y轴滚动比例，0~1的值
 	public function getValueY() :Float
 	{
-		return ((scrollDsp.y - scrollBound.y) / (height - scrollBound.height));
+		return (scrollDsp.y / (height - scrollDsp.height));
 	}
 	
 	//----------------------------------
@@ -346,35 +346,18 @@ class TouchScrollPanel extends Component
 	/**
 	 * 设置要滚动的显示对象
 	 * @param	value
-	 * @param isBound 是否按真实像素的左上角坐标来判断位置 (有些显示对象的滚动左上坐标并不是0,0。例如Sprite里面有一个负数坐标的子对象)
 	 */
-	public function setScrollDsp(value:DisplayObject,isBound:Bool=true):Void
+	public function setScrollDsp(value:DisplayObject):Void
 	{
 		if (scrollDsp == value)
 		return;
 		scrollDsp = value;
 		if (value == null)
 		return;
-		
-		addChildAt(scrollDsp, 0);
-		
-		if (isBound)
-		{
-			scrollBound = scrollDsp.getBounds(this);
-			scrollBound.x = scrollBound.x * -1;
-			scrollBound.y = scrollBound.y * -1;
-		}
-		else
-		scrollBound = new Rectangle(0, 0, scrollDsp.width, scrollDsp.height);
-		scrollDsp.x = scrollBound.x;
-		scrollDsp.y = scrollBound.y;
-		
+		addChildAt(scrollDsp,0);
 		dragScroll = true;
 	}
 	
-	// 开始滚动的左上点。
-	// (有些显示对象的滚动左上坐标并不是0,0。例如Sprite里面有一个负数坐标的子对象)
-	var scrollBound:Rectangle;
 	
 	/**
 	 * 激活内容可拖动

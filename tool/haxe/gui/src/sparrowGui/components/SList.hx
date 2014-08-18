@@ -27,8 +27,8 @@ class SList<T> extends Component
 		mouseEnabled = false;
 		mouseChildren = true;
 		#else
-		isNextRender = false;
 		#end
+		isNextRender = false;
 	}
 	
 	var itemLs:Array<SItem>;
@@ -85,11 +85,13 @@ class SList<T> extends Component
 		}
 		onSelectDataChange();
 		
-		#if html5
-		SparrowUtil.addNextCall(layout);
-		#else
 		layout();
-		#end
+		
+		//#if html5
+		//SparrowUtil.addNextCall(layout);
+		//#else
+		//layout();
+		//#end
 		super.draw();
 	}
 	
