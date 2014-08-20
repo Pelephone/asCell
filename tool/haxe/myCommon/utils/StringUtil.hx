@@ -10,12 +10,12 @@ class StringUtil
 	/**
 	 * 替换字符串中$1,$2,$3...变量
 	 */
-	public static function format(reStr:String,args:Array<Dynamic>):Void
+	public static function format(reStr:String,args:Array<Dynamic>):String
 	{
 		var s:String = reStr;
 		for (i in 0...args.length)
 		{
-			s = StringTools.replace(s, "$" + i, Std.string(args[i]));
+			s = StringTools.replace(s, "$" + (i+1), Std.string(args[i]));
 		}
 		return s;
 	}
@@ -60,10 +60,10 @@ class StringUtil
 		return input;
 	}
 	
-	public static function strictEscape(input:String, trim:Bool = true):String {
+	public static function strictEscape(input:String, isTrim:Bool = true):String {
 		if (input != null && input.length > 0) {
-			if (trim) {
-				input = StringUtils.trim(input);
+			if (isTrim) {
+				input = trim(input);
 			}
 			input = StringTools.urlEncode(input);
 			var a = input.split("");
