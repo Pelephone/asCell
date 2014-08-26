@@ -102,8 +102,6 @@ class TouchScrollPanel extends Component
 		scrollDsp.stage.removeEventListener(MouseEvent.MOUSE_UP, onMouseUp);
 		scrollDsp.stage.removeEventListener(Event.MOUSE_LEAVE, onMouseUp);
 		
-		var cmx:Float = scrollDsp.stage.mouseX;
-		
 		var toY:Float = 0;
 		var toX:Float = 0;
 		if (scrollBound.height > _height)
@@ -171,7 +169,7 @@ class TouchScrollPanel extends Component
 		}
 		
 		// 滑块的显示
-		if (upPt != null && scrollDsp.y == toY)
+		if (upPt != null && (scrollDsp.y - toY)<1)
 		{
 			if(_showType < 2)
 			{
@@ -218,6 +216,29 @@ class TouchScrollPanel extends Component
 			scrollSlider.y = sy;
 		
 			dispatchEvent(new Event(Event.CHANGE));
+		}
+	}
+	
+	/**
+	 * 设置Y轴滚动比率
+	 * @param	value 0~1之间的数
+	 */
+	public function setScrollYRate(value:Float)
+	{
+		if (value > 1)
+		value = 1;
+		else if (value < 0)
+		value = 0;
+		
+		var toY:Float;
+		if (scrollBound.height > _height)
+		{
+			toY = (_height - scrollBound.height) * value + scrollBound.y;
+			if (toY > scrollBound.y)
+			toY = scrollBound.y;
+			else if (toY < (_height - scrollBound.height + scrollBound.y))
+			toY = _height - scrollBound.height + scrollBound.y;
+			scrollDsp.y = toY;
 		}
 	}
 	
@@ -357,7 +378,17 @@ class TouchScrollPanel extends Component
 		return;
 		
 		addChildAt(scrollDsp, 0);
+		calcScrollBound(isBound);
 		
+		scrollDsp.x = scrollBound.x;
+		scrollDsp.y = scrollBound.y;
+		
+		dragScroll = true;
+	}
+	
+	// 跟据显示对象刷新滚动范围
+	public function calcScrollBound(isBound:Bool=true)
+	{
 		if (isBound)
 		{
 			scrollBound = scrollDsp.getBounds(this);
@@ -366,10 +397,6 @@ class TouchScrollPanel extends Component
 		}
 		else
 		scrollBound = new Rectangle(0, 0, scrollDsp.width, scrollDsp.height);
-		scrollDsp.x = scrollBound.x;
-		scrollDsp.y = scrollBound.y;
-		
-		dragScroll = true;
 	}
 	
 	// 开始滚动的左上点。

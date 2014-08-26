@@ -26,7 +26,7 @@ class SliceBg extends Sprite
 	/**
 	 * 切片路径
 	 */
-	public var sliceUrl:String = "img2/ss/pic$1_$2.jpg";
+	public var sliceUrl:String = "img2/bg/pic$1_$2.jpg";
 	
 	public function setSliceWH(sw:Int=200, sh:Int=200)
 	{
@@ -77,10 +77,12 @@ class SliceBg extends Sprite
 	// 可以能分多个bitmap,即大切片来draw
 	function setBitmapByCR(scol:Int, srow:Int, sliceBmpd:BitmapData):Void
 	{
+		if (sliceBmpd == null)
+		return;
 		var bsb:Bitmap = null;
 		var key:String;
 		// 如果小切片和bitmap块一样大，则直接设置bitmapdata即可
-		if (bigSliceHeight == sliceRect.height && bigSliceWidth == sliceRect.width)
+		if (bigSliceHeight <= sliceRect.height && bigSliceWidth <= sliceRect.width)
 		{
 			key = scol + "-" + srow;
 			if (!bigSliceMap.exists(key))
