@@ -41,11 +41,7 @@ class SliceBg extends Sprite
 	{
 		// 将像素矩形转换成小切片行列数
 		var startSX:Int = Math.ceil(rectPx.x / sliceRect.width);
-		//if ((rectPx.x / sliceRect.width) < 0)
-		//startSX = Math.floor(rectPx.x / sliceRect.width);
 		var startSY:Int = Math.ceil(rectPx.y / sliceRect.height);
-		//if ((rectPx.y / sliceRect.height) < 0)
-		//startSY = Math.floor(rectPx.y / sliceRect.height);
 		var endSCol:Int = Math.ceil(rectPx.width / sliceRect.width);
 		var endSRow:Int = Math.ceil(rectPx.height / sliceRect.height);
 		

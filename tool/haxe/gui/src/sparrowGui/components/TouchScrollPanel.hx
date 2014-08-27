@@ -23,6 +23,16 @@ class TouchScrollPanel extends Component
 		downMPt = new Point();
 		downSPt = new Point();
 		lastMPt = new Point();
+		this.addEventListener(MouseEvent.MOUSE_WHEEL, onMouseWheel);
+	}
+	
+	// 鼠标中键滚动
+	private function onMouseWheel(e:MouseEvent):Void 
+	{
+		if (scrollDsp == null)
+		return;
+		var ey:Float = scrollDsp.y - e.delta * height * 0.01;
+		scrollDsp.y = validaToY(ey);
 	}
 	
 	/**
@@ -109,10 +119,7 @@ class TouchScrollPanel extends Component
 			var endy:Float = lastMPt.y + (scrollDsp.stage.mouseY - lastMPt.y) * upSpeed;
 			var dy:Float = endy - downMPt.y;
 			toY = downSPt.y + dy;
-			if (toY > scrollBound.y)
-			toY = scrollBound.y;
-			else if (toY < (height - scrollBound.height + scrollBound.y))
-			toY = height - scrollBound.height + scrollBound.y;
+			toY = validaToY(toY);
 		}
 		
 		if (scrollBound.width > _width)
@@ -234,12 +241,22 @@ class TouchScrollPanel extends Component
 		if (scrollBound.height > _height)
 		{
 			toY = (_height - scrollBound.height) * value + scrollBound.y;
-			if (toY > scrollBound.y)
-			toY = scrollBound.y;
-			else if (toY < (height - scrollBound.height + scrollBound.y))
-			toY = height - scrollBound.height + scrollBound.y;
-			scrollDsp.y = toY;
+			scrollDsp.y = validaToY(toY);
 		}
+	}
+	
+	function validaToY(toY:Float):Float
+	{
+		if (scrollBound.height > height)
+		{
+			if (toY > scrollBound.y)
+			return scrollBound.y;
+			else if (toY < (height - scrollBound.height + scrollBound.y))
+			return height - scrollBound.height + scrollBound.y;
+			else
+			return toY;
+		}
+		return scrollBound.y;
 	}
 	
 	/**
