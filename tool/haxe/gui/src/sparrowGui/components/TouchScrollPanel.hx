@@ -236,8 +236,8 @@ class TouchScrollPanel extends Component
 			toY = (_height - scrollBound.height) * value + scrollBound.y;
 			if (toY > scrollBound.y)
 			toY = scrollBound.y;
-			else if (toY < (_height - scrollBound.height + scrollBound.y))
-			toY = _height - scrollBound.height + scrollBound.y;
+			else if (toY < (height - scrollBound.height + scrollBound.y))
+			toY = height - scrollBound.height + scrollBound.y;
 			scrollDsp.y = toY;
 		}
 	}
