@@ -53,6 +53,7 @@ class SliceBg extends Sprite
 				if (hasSliceKeys.indexOf(key)>=0)
 				continue;
 				var bmpd:BitmapData = getBmpdByCR(i, j);
+				trace(key,rectPx);
 				setBitmapByCR(i, j, bmpd);
 				hasSliceKeys.push(key);
 			}

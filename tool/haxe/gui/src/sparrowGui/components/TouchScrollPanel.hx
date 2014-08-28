@@ -31,7 +31,7 @@ class TouchScrollPanel extends Component
 	{
 		if (scrollDsp == null)
 		return;
-		var ey:Float = scrollDsp.y - e.delta * height * 0.01;
+		var ey:Float = scrollDsp.y + e.delta * height * 0.01;
 		scrollDsp.y = validaToY(ey);
 	}
 	
