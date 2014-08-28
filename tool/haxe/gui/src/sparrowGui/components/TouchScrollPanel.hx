@@ -31,7 +31,7 @@ class TouchScrollPanel extends Component
 	{
 		if (scrollDsp == null)
 		return;
-		var ey:Float = scrollDsp.y + e.delta * height * 0.01;
+		var ey:Float = scrollDsp.y + e.delta * (height - scrollBound.height + scrollBound.y) * 0.03;
 		scrollDsp.y = validaToY(ey);
 	}
 	
@@ -157,31 +157,49 @@ class TouchScrollPanel extends Component
 			toX = upPt.x;
 		}
 		
+		// 用于判断x,y坐标是否滚动完成
+		var yComplete:Bool = false;
+		var xComplete:Bool = false;
+		
 		// 滚动到的位置在合理位置
 		if (toY != scrollDsp.y && scrollDsp.height > _height)
 		{
 			if (Math.abs(scrollDsp.y - toY) < 1.2)
-			scrollDsp.y = toY;
+			{
+				scrollDsp.y = toY;
+				yComplete = true;
+			}
 			else
 			scrollDsp.y = scrollDsp.y + (toY - scrollDsp.y) / (1 + easeParam);
 			hasChange = true;
 		}
+		else
+		yComplete = true;
+		
 		if (toX != scrollDsp.x && scrollDsp.width > _width)
 		{
 			if (Math.abs(scrollDsp.x - toX) < 1.2)
-			scrollDsp.x = toX;
+			{
+				scrollDsp.x = toX;
+				xComplete = true;
+			}
 			else
 			scrollDsp.x = scrollDsp.x + (toX - scrollDsp.x) / (1 + easeParam);
 			hasChange = true;
 		}
+		else
+		xComplete = true;
 		
 		// 滑块的显示
 		if (upPt != null && (scrollDsp.y - toY)<1)
 		{
 			if(_showType < 2)
 			{
-				upPt = null;
-				removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+				if(yComplete && xComplete)
+				{
+					upPt = null;
+					removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+				}
 			}
 			else
 			{
@@ -274,6 +292,7 @@ class TouchScrollPanel extends Component
 		this.scrollRect = maskRect;
 		
 		invalidateDraw();
+		scrollDsp.y = validaToY(scrollDsp.y);
 	}
 	
 	override private function draw():Void 
@@ -406,14 +425,20 @@ class TouchScrollPanel extends Component
 	// 跟据显示对象刷新滚动范围
 	public function calcScrollBound(isBound:Bool=true)
 	{
+		if (scrollDsp == null)
+		return;
+		
 		if (isBound)
 		{
-			scrollBound = scrollDsp.getBounds(this);
+			scrollBound = scrollDsp.getBounds(scrollDsp);
 			scrollBound.x = scrollBound.x * -1;
 			scrollBound.y = scrollBound.y * -1;
 		}
 		else
 		scrollBound = new Rectangle(0, 0, scrollDsp.width, scrollDsp.height);
+		
+		if (scrollDsp.height > height)
+		scrollSlider.height = height * height / scrollDsp.height;
 	}
 	
 	// 开始滚动的左上点。
@@ -464,6 +489,7 @@ class TouchScrollPanel extends Component
 		if (_showType == value)
 		return _showType;
 		_showType = value;
+		invalidateDraw();
 		return _showType;
 	}
 }

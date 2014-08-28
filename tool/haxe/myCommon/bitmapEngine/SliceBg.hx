@@ -42,8 +42,8 @@ class SliceBg extends Sprite
 		// 将像素矩形转换成小切片行列数
 		var startSX:Int = Math.ceil(rectPx.x / sliceRect.width);
 		var startSY:Int = Math.ceil(rectPx.y / sliceRect.height);
-		var endSCol:Int = Math.ceil(rectPx.width / sliceRect.width);
-		var endSRow:Int = Math.ceil(rectPx.height / sliceRect.height);
+		var endSCol:Int = Math.ceil(rectPx.right / sliceRect.width);
+		var endSRow:Int = Math.ceil(rectPx.bottom / sliceRect.height);
 		
 		for (i in startSX...endSCol)
 		{
@@ -53,7 +53,6 @@ class SliceBg extends Sprite
 				if (hasSliceKeys.indexOf(key)>=0)
 				continue;
 				var bmpd:BitmapData = getBmpdByCR(i, j);
-				trace(key,rectPx);
 				setBitmapByCR(i, j, bmpd);
 				hasSliceKeys.push(key);
 			}
