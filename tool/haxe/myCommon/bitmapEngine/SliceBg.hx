@@ -40,8 +40,8 @@ class SliceBg extends Sprite
 	public function showRect(rectPx:Rectangle) 
 	{
 		// 将像素矩形转换成小切片行列数
-		var startSX:Int = Math.ceil(rectPx.x / sliceRect.width);
-		var startSY:Int = Math.ceil(rectPx.y / sliceRect.height);
+		var startSX:Int = Math.floor(rectPx.x / sliceRect.width);
+		var startSY:Int = Math.floor(rectPx.y / sliceRect.height);
 		var endSCol:Int = Math.ceil(rectPx.right / sliceRect.width);
 		var endSRow:Int = Math.ceil(rectPx.bottom / sliceRect.height);
 		
