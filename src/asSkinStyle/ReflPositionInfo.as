@@ -188,8 +188,11 @@ package asSkinStyle
 		 * 将xml上的位置信息解析到子项
 		 * @param xml
 		 */
-		public static function decodeXmlToChild(dspc:DisplayObjectContainer,xml:Object):void
+		public static function decodeXmlToChild(dspc:DisplayObjectContainer,xml:Object,parseCur:Boolean=true):void
 		{
+			if(parseCur)
+				parseXmlAttri(dspc,xml);
+				
 			for each (var itmX:Object in xml.children()) 
 			{
 				var vName:String = itmX.@name;
@@ -206,39 +209,7 @@ package asSkinStyle
 					dspc.addChild(dsp);
 					dsp.name = vName;
 				}
-				for each (var itm2:Object in itmX.attributes()) 
-				{
-					var val:Object = itm2;
-					var n:String = itm2.name();
-					if(n == "name")
-						continue;
-					if(String(val).indexOf("@")==0)
-					{
-						var s3:String = String(val).substr(1);
-						if(s3 in langMap)
-							val = langMap[s3]
-					}
-					if(String(val).indexOf("$")==0)
-					{
-						var s2:String = String(val).substr(1);
-						if(refValue.hasOwnProperty(s2))
-							val = refValue[s2];
-					}
-					if(String(n).indexOf("_")==0 && isChangeValue)
-					{
-						n = String(n).substr(1);
-					}
-					try
-					{
-						dsp[n] = val;
-					} 
-					catch(error:Error) 
-					{
-						if(String(val).charAt(0) != "$")
-						throw new Error(String(itmX)+"节点有问题\n\""+vName+"\"项的\""+n+"\"属性斌值有问题");
-					}
-				}
-				
+				parseXmlAttri(dsp,itmX);
 				
 				if(!isCreateChild || !uiType || !uiType.length || !dsp.hasOwnProperty(UI_TYPE_ATTR))
 					continue;
@@ -247,7 +218,44 @@ package asSkinStyle
 				if(!cdsp || cdsp.numChildren == 0)
 					continue;
 				
-				decodeXmlToChild(cdsp,itmX);
+				decodeXmlToChild(cdsp,itmX,false);
+			}
+		}
+		
+		private static function parseXmlAttri(dsp:DisplayObject,itmX:Object):void
+		{
+			var vName:String = itmX.@name;
+			for each (var itm2:Object in itmX.attributes()) 
+			{
+				var val:Object = itm2;
+				var n:String = itm2.name();
+				if(n == "name")
+					continue;
+				if(String(val).indexOf("@")==0)
+				{
+					var s3:String = String(val).substr(1);
+					if(s3 in langMap)
+						val = langMap[s3]
+				}
+				if(String(val).indexOf("$")==0)
+				{
+					var s2:String = String(val).substr(1);
+					if(refValue.hasOwnProperty(s2))
+						val = refValue[s2];
+				}
+				if(String(n).indexOf("_")==0 && isChangeValue)
+				{
+					n = String(n).substr(1);
+				}
+				try
+				{
+					dsp[n] = val;
+				} 
+				catch(error:Error) 
+				{
+					if(String(val).charAt(0) != "$")
+						throw new Error(String(itmX)+"节点有问题\n\""+vName+"\"项的\""+n+"\"属性斌值有问题");
+				}
 			}
 		}
 		
