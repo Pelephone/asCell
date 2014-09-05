@@ -41,11 +41,11 @@ class TouchScrollPanel extends Component
 	/**
 	 * 鼠标抬起状态时的拖动速度,越大越快
 	 */
-	public var upSpeed:Int = 5;
+	public var upSpeed:Int = 10;
 	/**
 	 * 缓动系统数，数字越大，缓动越久.0，表示不缓动
 	 */
-	public var easeParam:Int = 5;
+	public var easeParam:Int = 3;
 	// 鼠标抬起时预要飞到的点
 	var upPt:Point;
 	
