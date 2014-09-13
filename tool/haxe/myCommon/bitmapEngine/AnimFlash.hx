@@ -36,6 +36,7 @@ class AnimFlash implements IMovieClip
 		if (value == _data)
 		return null;
 		return _data = value;
+		_totalFrames = _data.maxLen;
 	}
 	
 	public var data(get_data, set_data):MotionData;
