@@ -1,4 +1,4 @@
-package bitmapEngine;
+package anim;
 
 /**
  * 动画数据

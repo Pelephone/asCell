@@ -143,6 +143,13 @@ class TouchScrollPanel extends Component
 	// 逐帧计算坐标
 	function onEnterFrame(e:Event):Void 
 	{
+		// 还没滚动完成的时候，被动对象清空了易报错
+		if (scrollDsp == null || scrollDsp.stage == null)
+		{
+			removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+			return;
+		}
+		
 		var toY:Float = 0;
 		var toX:Float = 0;
 		var hasChange:Bool = false;
