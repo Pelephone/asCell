@@ -18,6 +18,7 @@ import flash.display.Graphics;
 import flash.display.Sprite;
 import flash.events.Event;
 import flash.geom.Point;
+import sparrowGui.SparrowUtil;
 
 /**
  * 全屏遮挡,跟据场景变化而改变宽高
@@ -35,7 +36,11 @@ class FullScreenDraw extends Sprite
 		addEventListener(Event.ADDED_TO_STAGE,onSkinInit);
 		
 		addEventListener(Event.ADDED_TO_STAGE,onToStage);
-		addEventListener(Event.REMOVED_FROM_STAGE,onToStage);
+		addEventListener(Event.REMOVED_FROM_STAGE, onToStage);
+		
+		#if html5
+		paddingButtom = -1200;
+		#end
 	}
 	
 	function onSkinInit(e:Event):Void
@@ -76,8 +81,14 @@ class FullScreenDraw extends Sprite
 	
 	function onStageResize(e:Event=null)
 	{
+		SparrowUtil.addNextCall(nextResize);
+	}
+	
+	function nextResize()
+	{
 		if (this.stage == null || this.parent == null)
 		return;
+		
 		var p:DisplayObject = this.parent;
 		tmpt.x = p.stage.stageWidth;
 		tmpt.y = p.stage.stageHeight;
