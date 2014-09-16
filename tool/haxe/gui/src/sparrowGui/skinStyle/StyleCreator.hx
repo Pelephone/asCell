@@ -4,7 +4,7 @@ import asSkinStyle.draw.RectSprite;
 import flash.display.DisplayObjectContainer;
 import flash.display.Shape;
 import flash.display.Sprite;
-import sparrowGui.components.item.SButton.SButton;
+import sparrowGui.components.item.SButton;
 import sparrowGui.components.STextField;
 import sparrowGui.data.ItemState;
 import sparrowGui.SparrowUtil;
@@ -28,6 +28,7 @@ class StyleCreator
 		skin.addChild(selectState);
 		
 		var txtLabel:STextField = getBaseText();
+		txtLabel.textColor = 0x000000;
 		skin.addChild(txtLabel);
 		return skin;
 	}
