@@ -29,7 +29,9 @@ class Component extends Sprite
 			skinFunc(this);
 			return;
 		}
+		
 		var skinId:String = getSkinId();
+
 		var gss:GuiSkinStyle = GuiSkinStyle.getInstance();
 		if(gss.hasStyleFun(skinId))
 		{

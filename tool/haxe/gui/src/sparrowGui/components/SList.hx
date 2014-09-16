@@ -290,37 +290,37 @@ class SList<T> extends Component
 	/**
 	 * 子项高
 	 */
-	public var itemHeight(get,set):Int;
-	var _itemHeight:Int = 0;
-	function get_itemHeight():Int
+	public var rowHeight(get,set):Int;
+	var _rowHeight:Int = 0;
+	function get_rowHeight():Int
 	{
-		return _itemHeight;
+		return _rowHeight;
 	}
-	function set_itemHeight(value:Int):Int
+	function set_rowHeight(value:Int):Int
 	{
-		if (value == _itemHeight)
-		return _itemHeight;
-		_itemHeight = value;
+		if (value == _rowHeight)
+		return _rowHeight;
+		_rowHeight = value;
 		SparrowUtil.addNextCall(layout);
-		return _itemHeight;
+		return _rowHeight;
 	}
 	
 	/**
 	 * 子项宽
 	 */
-	public var itemWidth(get, set):Int;
-	var _itemWidth:Int = 0;
-	function get_itemWidth():Int
+	public var colWidth(get, set):Int;
+	var _colWidth:Int = 0;
+	function get_colWidth():Int
 	{
-		return _itemWidth;
+		return _colWidth;
 	}
-	function set_itemWidth(value:Int):Int
+	function set_colWidth(value:Int):Int
 	{
-		if (_itemWidth == value)
-		return _itemWidth;
-		_itemWidth = value;
+		if (_colWidth == value)
+		return _colWidth;
+		_colWidth = value;
 		SparrowUtil.addNextCall(layout);
-		return _itemWidth;
+		return _colWidth;
 	}
 	
 	/**
@@ -369,9 +369,9 @@ class SList<T> extends Component
 	function layout() 
 	{
 		if (layoutCall != null)
-		layoutCall(itemLs, colNum, spacing, itemWidth, itemHeight);
+		layoutCall(itemLs, colNum, spacing, colWidth, rowHeight);
 		else
-		SparrowUtil.layoutUtil(cast itemLs, colNum, spacing, itemWidth, itemHeight);
+		SparrowUtil.layoutUtil(cast itemLs, colNum, spacing, colWidth, rowHeight);
 		
 		dispatchEvent(new Event(Event.CHANGE));
 	}

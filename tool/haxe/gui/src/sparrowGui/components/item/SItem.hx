@@ -55,6 +55,14 @@ class SItem extends Component
 		setCurrentState(ItemState.UP);
 	}
 	
+	/**
+	 * UI改变,留接口给MyList调用
+	 */
+	public function changeUI()
+	{
+		
+	}
+	
 	override private function getSkinId():String 
 	{
 		return StyleKeys.ITEM;
