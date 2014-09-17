@@ -60,14 +60,13 @@ class FullScreenDraw extends Sprite
 			case Event.ADDED_TO_STAGE:
 			{
 				tmpStg = this.stage;
-				if(!tmpStg.hasEventListener(Event.RESIZE))
-					tmpStg.addEventListener(Event.RESIZE, onStageResize);
+				tmpStg.removeEventListener(Event.RESIZE, onStageResize);
+				tmpStg.addEventListener(Event.RESIZE, onStageResize);
 				//StageMgr.registerResizeListener(onChangeRect);
 			}
 			case Event.REMOVED_FROM_STAGE:
 			{
-				if(tmpStg.hasEventListener(Event.RESIZE))
-					tmpStg.removeEventListener(Event.RESIZE, onStageResize);
+				tmpStg.removeEventListener(Event.RESIZE, onStageResize);
 				//StageMgr.removeResizeListener(onChangeRect);
 				tmpStg = null;
 			}

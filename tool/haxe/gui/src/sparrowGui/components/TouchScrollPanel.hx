@@ -41,11 +41,11 @@ class TouchScrollPanel extends Component
 	/**
 	 * 鼠标抬起状态时的拖动速度,越大越快
 	 */
-	public var upSpeed:Int = 10;
+	public var upSpeed:Int = 30;
 	/**
 	 * 缓动系统数，数字越大，缓动越久.0，表示不缓动
 	 */
-	public var easeParam:Int = 3;
+	public var easeParam:Float = 3.8;
 	// 鼠标抬起时预要飞到的点
 	var upPt:Point;
 	
@@ -90,8 +90,8 @@ class TouchScrollPanel extends Component
 		if (height > scrollDsp.height)
 		return;
 		
-		downMPt.x = scrollDsp.stage.mouseX;
-		downMPt.y = scrollDsp.stage.mouseY;
+		downMPt.x = this.mouseX;
+		downMPt.y = this.mouseY;
 		downSPt.x = scrollDsp.x;
 		downSPt.y = scrollDsp.y;
 		upPt = null;
@@ -119,7 +119,7 @@ class TouchScrollPanel extends Component
 		var toX:Float = 0;
 		if (scrollBound.height > _height)
 		{
-			var endy:Float = lastMPt.y + (scrollDsp.stage.mouseY - lastMPt.y) * upSpeed;
+			var endy:Float = lastMPt.y + (this.mouseY - lastMPt.y) * upSpeed;
 			var dy:Float = endy - downMPt.y;
 			toY = downSPt.y + dy;
 			toY = validaToY(toY);
@@ -127,7 +127,7 @@ class TouchScrollPanel extends Component
 		
 		if (scrollBound.width > _width)
 		{
-			var endx:Float = lastMPt.x + (scrollDsp.stage.mouseX - lastMPt.x) * upSpeed;
+			var endx:Float = lastMPt.x + (this.mouseX - lastMPt.x) * upSpeed;
 			var dx:Float = endx - downMPt.x;
 			toX = downSPt.x + dx;
 			if (toX > 0)
@@ -156,9 +156,9 @@ class TouchScrollPanel extends Component
 		
 		if (upPt == null)
 		{
-			var dy:Float = scrollDsp.stage.mouseY - downMPt.y;
+			var dy:Float = this.mouseY - downMPt.y;
 			toY = downSPt.y + dy;
-			var dx:Float = scrollDsp.stage.mouseX - downMPt.x;
+			var dx:Float = this.mouseX - downMPt.x;
 			toX = downSPt.x + dx;
 		}
 		else
@@ -174,7 +174,7 @@ class TouchScrollPanel extends Component
 		// 滚动到的位置在合理位置
 		if (toY != scrollDsp.y && scrollDsp.height > _height)
 		{
-			if (Math.abs(scrollDsp.y - toY) < 1.2)
+			if (upPt == null || Math.abs(scrollDsp.y - toY) < 1.2)
 			{
 				scrollDsp.y = toY;
 				yComplete = true;
@@ -188,7 +188,7 @@ class TouchScrollPanel extends Component
 		
 		if (toX != scrollDsp.x && scrollDsp.width > _width)
 		{
-			if (Math.abs(scrollDsp.x - toX) < 1.2)
+			if (upPt == null || Math.abs(scrollDsp.x - toX) < 1.2)
 			{
 				scrollDsp.x = toX;
 				xComplete = true;
@@ -236,8 +236,8 @@ class TouchScrollPanel extends Component
 			}
 		}
 
-		lastMPt.x = scrollDsp.stage.mouseX;
-		lastMPt.y = scrollDsp.stage.mouseY;
+		lastMPt.x = this.mouseX;
+		lastMPt.y = this.mouseY;
 		
 		// 正在自动滚动的过程
 		if(hasChange)
