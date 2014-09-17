@@ -75,11 +75,15 @@ class Scale9GridBitmap extends Sprite
 		if (_source == null || _scale9 == null)
 		return;
 		
-		var dw:Float = _width > 0?_width:oldWidth;
-		var dh:Float = _height > 0?_height:oldHeight;
+		var dw:Float = _width >= 0?_width:oldWidth;
+		var dh:Float = _height >= 0?_height:oldHeight;
 		
-		if (dw == 0 || dh == 0)
-		return;
+		if (Std.int(dw) == 0 || Std.int(dh) == 0)
+		{
+			visible = false;
+			return;
+		}
+		visible = true;
 		
 		if (oldWidth == dw && oldHeight == dh)
 		{
@@ -227,8 +231,8 @@ class Scale9GridBitmap extends Sprite
 		var rightWidth:Float = oldWidth - _scale9.x - _scale9.width;
 		var bottomHeight:Float = oldHeight - _scale9.y - _scale9.height;
 		
-		var dw:Float = _width > 0?_width:oldWidth;
-		var dh:Float = _height > 0?_height:oldHeight;
+		var dw:Float = _width >= 0?_width:oldWidth;
+		var dh:Float = _height >= 0?_height:oldHeight;
 		
 		var xAry:Array<Float> = [0,_scale9.x,(dw - rightWidth)];
 		var widthAry:Array<Float> = [_scale9.x,(dw - _scale9.x - rightWidth),rightWidth];
@@ -425,7 +429,7 @@ class Scale9GridBitmap extends Sprite
 	}
 	
 	
-	var _width:Float = 0;
+	var _width:Float = -1;
 	@:setter(width)
 	#if flash
 	private function set_width(value:Float)
@@ -464,7 +468,7 @@ class Scale9GridBitmap extends Sprite
 	
 	
 	
-	var _height:Float = 0;
+	var _height:Float = -1;
 	@:setter(height)
 	#if flash
 	private function set_height(value:Float)
