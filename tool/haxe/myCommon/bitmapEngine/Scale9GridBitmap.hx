@@ -78,7 +78,7 @@ class Scale9GridBitmap extends Sprite
 		var dw:Float = _width >= 0?_width:oldWidth;
 		var dh:Float = _height >= 0?_height:oldHeight;
 		
-		if (Std.int(dw) == 0 || Std.int(dh) == 0)
+		if (dw < 1 || dh < 1)
 		{
 			visible = false;
 			return;
@@ -167,7 +167,7 @@ class Scale9GridBitmap extends Sprite
 		if (_source == null || _scale9 == null)
 		return;
 		
-		if ((oldWidth == _width && oldHeight == _height) || (_width == 0 && _height == 0))
+		if ((oldWidth == _width && oldHeight == _height) || (_width < 0 && _height < 0))
 		{
 			setShowBmp(_source);
 			return;
@@ -183,9 +183,9 @@ class Scale9GridBitmap extends Sprite
 		var pt:Point = new Point(0, 0);
 		var col:Int = xAry.length;
 		var row:Int = yAry.length;
-		if (_width == oldWidth || _width == 0)
+		if (_width == oldWidth || _width < 0)
 		col = 1;
-		if (_height == oldHeight || _height == 0)
+		if (_height == oldHeight || _height < 0)
 		row = 1;
 		
 		for (j in 0...row)
@@ -234,10 +234,34 @@ class Scale9GridBitmap extends Sprite
 		var dw:Float = _width >= 0?_width:oldWidth;
 		var dh:Float = _height >= 0?_height:oldHeight;
 		
-		var xAry:Array<Float> = [0,_scale9.x,(dw - rightWidth)];
-		var widthAry:Array<Float> = [_scale9.x,(dw - _scale9.x - rightWidth),rightWidth];
-		var yAry:Array<Float> = [0,_scale9.y,(dh - bottomHeight)];
-		var heightAry:Array<Float> = [_scale9.y, (dh - _scale9.y - bottomHeight), bottomHeight];
+		var sx:Float = _scale9.x;
+		var sy:Float = _scale9.y;
+		var smw:Float = dw - oldWidth + _scale9.width;
+		var smh:Float = dh - oldHeight + _scale9.height;
+		var nw:Float = oldWidth - _scale9.width;
+		var nh:Float = oldHeight - _scale9.height;
+		if (dw < nw)
+		{
+			sx = dw * 0.5;
+			smw = 0;
+			rightWidth = dw * 0.5;
+		}
+		if(dh < nh)
+		{
+			sy = dh * 0.5;
+			smh = 0;
+			bottomHeight = dh * 0.5;
+		}
+		
+		var xAry:Array<Float> = [0,sx,(dw - rightWidth)];
+		var widthAry:Array<Float> = [sx,smw,rightWidth];
+		var yAry:Array<Float> = [0,sy,(dh - bottomHeight)];
+		var heightAry:Array<Float> = [sy, smh, bottomHeight];
+		
+		//var xAry:Array<Float> = [0,_scale9.x,(dw - rightWidth)];
+		//var widthAry:Array<Float> = [_scale9.x,(dw - _scale9.x - rightWidth),rightWidth];
+		//var yAry:Array<Float> = [0,_scale9.y,(dh - bottomHeight)];
+		//var heightAry:Array<Float> = [_scale9.y, (dh - _scale9.y - bottomHeight), bottomHeight];
 		
 		var col:Int = xAry.length;
 		var row:Int = yAry.length;
@@ -269,7 +293,7 @@ class Scale9GridBitmap extends Sprite
 				
 				bmp.x = tx;
 				bmp.y = ty;
-				if(i==1)
+				if(tw != bmp.width)
 				bmp.width = tw;
 				if(j==1)
 				bmp.height = th;
@@ -444,7 +468,7 @@ class Scale9GridBitmap extends Sprite
 
 		_width = value;
 		
-		if (rw == 0)
+		if (rw == -1)
 		needBuildSlice = true;
 		calcRessize();
 		
@@ -460,7 +484,7 @@ class Scale9GridBitmap extends Sprite
 	override public function get_width():Float
 	#end
 	{
-		if (_width > 0)
+		if (_width >= 0)
 		return _width;
 		else
 		return oldWidth;
@@ -481,7 +505,7 @@ class Scale9GridBitmap extends Sprite
 	
 		var rh:Float = _height;
 		_height = value;
-		if (rh == 0)
+		if (rh == -1)
 		needBuildSlice = true;
 		calcRessize();
 		#if !flash
@@ -496,7 +520,7 @@ class Scale9GridBitmap extends Sprite
 	override public function get_height():Float
 	#end
 	{
-		if(_height>0)
+		if (_height >= 0)
 		return _height;
 		else
 		return oldHeight;
@@ -595,6 +619,7 @@ class Scale9GridBitmap extends Sprite
 	public function dispose()
 	{
 		clearBmp();
+		_scale9 = null;
 		bgSrc = null;
 		_source = null;
 	}
