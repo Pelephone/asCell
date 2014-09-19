@@ -41,7 +41,7 @@ class TouchScrollPanel extends Component
 	/**
 	 * 鼠标抬起状态时的拖动速度,越大越快
 	 */
-	public var upSpeed:Int = 30;
+	public var upSpeed:Int = 5;
 	/**
 	 * 缓动系统数，数字越大，缓动越久.0，表示不缓动
 	 */
@@ -119,7 +119,8 @@ class TouchScrollPanel extends Component
 		var toX:Float = 0;
 		if (scrollBound.height > _height)
 		{
-			var endy:Float = lastMPt.y + (this.mouseY - lastMPt.y) * upSpeed;
+			//var endy:Float = lastMPt.y + (this.mouseY - lastMPt.y) * upSpeed;
+			var endy:Float = lastMPt.y + vy * upSpeed;
 			var dy:Float = endy - downMPt.y;
 			toY = downSPt.y + dy;
 			toY = validaToY(toY);
@@ -139,6 +140,7 @@ class TouchScrollPanel extends Component
 		upPt = new Point(toX, toY);
 	}
 	
+	var vy:Float = 0;
 	
 	// 逐帧计算坐标
 	function onEnterFrame(e:Event):Void 
@@ -235,6 +237,12 @@ class TouchScrollPanel extends Component
 				}
 			}
 		}
+		
+		var nvy:Float = (this.mouseY - lastMPt.y) * 2;
+		if ((vy > 0 && nvy > 0) || (vy < 0 && nvy < 0))
+		vy = (vy + nvy) * 0.5;
+		else
+		vy = nvy;
 
 		lastMPt.x = this.mouseX;
 		lastMPt.y = this.mouseY;
