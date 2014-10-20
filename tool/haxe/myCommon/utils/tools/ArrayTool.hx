@@ -141,6 +141,7 @@ class ArrayTool
 	{
 		if (!checkArr(list))
 		return -1;
+		return list.indexOf(value);
 		
 		#if flash
 		return list.indexOf(value);

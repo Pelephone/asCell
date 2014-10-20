@@ -65,6 +65,11 @@ class StaticEnterFrame
 		{
 			fun();
 		}
+		
+		#if debugMode
+			if (_listenerLs.length > 999)
+			trace("StaticEnterFrame.update()");
+		#end
 		updateCount = updateCount + 1;
 	}
 	
