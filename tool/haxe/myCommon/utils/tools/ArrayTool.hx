@@ -111,11 +111,24 @@ class ArrayTool
 	 * @param	value
 	 * @return
 	 */ 
-	static public function arrayRemove(list:Array<Dynamic>, value:Dynamic):Dynamic
+	static public function arrayRemove(list:Array<Dynamic>, value:Dynamic):Int
 	{
 		if (!checkArr(list))
 		return null;
+		#if flash
 		return list.remove(value);
+		#else
+			for (i in 0...list.length)
+			{
+				//if (Reflect.compare(list[i], value))
+				if (list[i] == value)
+				{
+					list.splice(i, 1);
+					return i;
+				}
+			}
+			return null;
+		#end
 	}
 	
 	/**
@@ -129,12 +142,17 @@ class ArrayTool
 		if (!checkArr(list))
 		return -1;
 		
+		#if flash
+		return list.indexOf(value);
+		#else
 		for (i in 0...list.length)
 		{
-			if (list[i] && list[i] == value)
+			//if(Reflect.compare(list[i], value))
+			if (list[i] == value)
 			return i;
 		}
 		return -1;
+		#end
 	}
 	
 	
@@ -144,13 +162,14 @@ class ArrayTool
 	 * */
 	static public function clearArr(arr:Array<Dynamic>):Void
 	{
-		if (arr == null)
+		if (!checkArr(arr))
 		return;
 		
-		while (arr != null && arr.length > 0)
+		arr.splice(0,arr.length);
+		/*while (arr != null && arr.length > 0)
 		{
 			arr.pop();
-		}
+		}*/
 	}
 	
 	/**

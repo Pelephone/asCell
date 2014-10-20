@@ -35,7 +35,7 @@ class SparrowUtil
 		
 		for (i in 0...list.length)
 		{
-			if (list[i] && list[i] == value)
+			if (list[i] == value)
 			return i;
 		}
 		return -1;
