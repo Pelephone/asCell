@@ -111,7 +111,7 @@ class ArrayTool
 	 * @param	value
 	 * @return
 	 */ 
-	static public function arrayRemove(list:Array<Dynamic>, value:Dynamic):Int
+	static public function arrayRemove(list:Array<Dynamic>, value:Dynamic):Dynamic
 	{
 		if (!checkArr(list))
 		return null;
