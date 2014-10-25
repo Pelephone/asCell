@@ -4,7 +4,7 @@ import flash.display.DisplayObjectContainer;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.Point;
-import sparrowGUI.components.Component;
+import sparrowGui.components.Component;
 import sparrowGui.components.item.SButton;
 import sparrowGui.skinStyle.StyleKeys;
 

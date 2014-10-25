@@ -2,7 +2,7 @@ package sparrowGui.components;
 
 import flash.events.Event;
 import flash.events.MouseEvent;
-import sparrowGUI.components.Component;
+import sparrowGui.components.Component;
 import sparrowGui.components.item.SButton;
 import sparrowGui.components.item.SItem;
 import sparrowGui.data.ListSelectionData;

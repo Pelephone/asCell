@@ -1,4 +1,4 @@
-package sparrowGUI.components;
+package sparrowGui.components;
 
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;

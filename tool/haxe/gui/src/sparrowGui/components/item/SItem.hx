@@ -3,7 +3,7 @@ package sparrowGui.components.item;
 import flash.display.DisplayObject;
 import flash.display.DisplayObjectContainer;
 import flash.display.Sprite;
-import sparrowGUI.components.Component;
+import sparrowGui.components.Component;
 import sparrowGui.data.ItemState;
 import sparrowGui.skinStyle.StyleKeys;
 import sparrowGui.SparrowUtil;

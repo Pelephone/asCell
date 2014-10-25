@@ -5,7 +5,7 @@ import flash.events.MouseEvent;
 import flash.geom.Point;
 import flash.geom.Rectangle;
 import haxe.Timer;
-import sparrowGUI.components.Component;
+import sparrowGui.components.Component;
 import sparrowGui.skinStyle.StyleKeys;
 
 /**
