@@ -94,6 +94,9 @@ class TouchScrollPanel extends Component
 		downMPt.y = this.mouseY;
 		downSPt.x = scrollDsp.x;
 		downSPt.y = scrollDsp.y;
+		lastMPt.x = this.mouseX;
+		lastMPt.y = this.mouseY;
+		
 		upPt = null;
 		hiddenTime = 0;
 		
@@ -108,6 +111,16 @@ class TouchScrollPanel extends Component
 		
 		removeEventListener(Event.ENTER_FRAME, onEnterFrame);
 		addEventListener(Event.ENTER_FRAME, onEnterFrame);
+		
+		//this.removeEventListener(MouseEvent.MOUSE_MOVE, onMouseTmp);
+		//this.addEventListener(MouseEvent.MOUSE_MOVE, onMouseTmp);
+	}
+	
+	private function onMouseTmp(e:MouseEvent):Void 
+	{
+		removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+		addEventListener(Event.ENTER_FRAME, onEnterFrame);
+		
 	}
 	
 	function onMouseUp(e:Event)
@@ -143,7 +156,7 @@ class TouchScrollPanel extends Component
 	var vy:Float = 0;
 	
 	// 逐帧计算坐标
-	function onEnterFrame(e:Event):Void 
+	function onEnterFrame(e:Event=null):Void 
 	{
 		// 还没滚动完成的时候，被动对象清空了易报错
 		if (scrollDsp == null || scrollDsp.stage == null)

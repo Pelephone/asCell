@@ -1,6 +1,7 @@
 package utils.tools;
 
 import flash.geom.Point;
+import game.utils.NumberUtil;
 
 /**
  * 几何工具,里面有一些点、线、面的计算
@@ -15,7 +16,7 @@ class GeometryTool
 	public static function getExtPot(p:Point,l:Float,ra:Float):Point
 	{
 		var tt:Point = Point.polar(l,ra);
-		tt.offset(p.x,p.y);
+		tt.offset(p.x, p.y);
 		return tt;
 	}
 	
@@ -38,12 +39,18 @@ class GeometryTool
 	}
 	
 	/**
+	 * 返回的浮点数的位数
+	 */
+	inline public static var DEFAULT_DIGIT:Int = 8;
+	
+	/**
 	 * 将角度转换到0~360之间的值
 	 * @param ang
 	 */		
 	public static function angleTo360(anglg:Float):Float
 	{
-		return anglg>0?anglg%360:anglg%360+360;
+		var res:Float = anglg > 0?anglg % 360:anglg % 360 + 360;
+		return res;
 	}
 	
 	/**
@@ -53,7 +60,8 @@ class GeometryTool
 	 */
 	public static function radianTo2RI(radian:Float):Float
 	{
-		return radian>0?(radian%(Math.PI*2)):(radian%(Math.PI*2)+Math.PI*2);
+		var res:Float = radian>0?(radian%(Math.PI*2)):(radian%(Math.PI*2)+Math.PI*2);
+		return res;
 	}
 	
 	/**
@@ -82,7 +90,8 @@ class GeometryTool
 	{
 		var dx:Float = sx - ex;
 		var dy:Float = sy - ey;
-		return Math.sqrt(dx * dx + dy * dy);
+		var res:Float = Math.sqrt(dx * dx + dy * dy);
+		return res;
 	}
 	
 	/**
@@ -135,7 +144,8 @@ class GeometryTool
 	 */
 	public static function getLineSlope( x1:Float, y1:Float, x2:Float, y2:Float):Float
 	{
-		return (y2 - y1) / (x2 - x1); 
+		var res:Float = (y2 - y1) / (x2 - x1); 
+		return res;
 	}
 	
 	/**
@@ -145,7 +155,8 @@ class GeometryTool
 	public static function getAngleByPt( x1:Float, y1:Float, x2:Float, y2:Float):Float
 	{
 		var r:Float = getLineSlope(x1, y1, x2, y2);
-		return Math.atan(r);
+		var res:Float = Math.atan(r);
+		return res;
 	}
 	
 	/**
@@ -236,7 +247,8 @@ class GeometryTool
 	//叉积(用于判断两线段是否相交)
 	public static function mult(a:Point,b:Point,c:Point):Float
 	{
-		return (a.x-c.x)*(b.y-c.y)-(b.x-c.x)*(a.y-c.y);
+		var res:Float = (a.x-c.x)*(b.y-c.y)-(b.x-c.x)*(a.y-c.y);
+		return res;
 	}
 	
 	
@@ -249,7 +261,8 @@ class GeometryTool
 	 */		
 	public static function potInLR(pa:Point,pb:Point,pc:Point):Float
 	{
-		return (pb.x - pa.x) * (pc.y - pa.y) - (pc.x - pa.x) * (pb.y - pa.y);
+		var res:Float = (pb.x - pa.x) * (pc.y - pa.y) - (pc.x - pa.x) * (pb.y - pa.y);
+		return res;
 	}
 	
 	/**
@@ -275,5 +288,26 @@ class GeometryTool
 	public static function c01To1(num:Int):Int
 	{
 		return num*2-1;
+	}
+	
+	/**
+	 * 保留小数位
+	 * @param index 保留的位数 ，0表示整数
+	 */
+	public static function floatDecimal(num:Float,index:Int=DEFAULT_DIGIT):Float
+	{
+		// 防止益出，如果要保留的位数太多，num2会很大，容易益出
+		if (index < 4)
+		{
+			var num2:Float = Math.pow(10, index);
+			return Math.round(num * num2) / num2;
+		}
+		
+		var str:String = Std.string(num);
+		var tid:Int = str.indexOf(".");
+		if (tid < 0)
+		return num;
+		else
+		return Std.parseFloat(str.substring(0, (tid + DEFAULT_DIGIT)));
 	}
 }
