@@ -66,8 +66,10 @@ class RectDraw extends ShapeDraw
 			
 			if (drawInfo.bgColor >= 0 && drawInfo.bgColor2 < 0)
 			{
-				graphics.beginFill(drawInfo.bgColor,drawInfo.bgAlpha);
-				graphics.lineStyle(0,0,0);
+				graphics.beginFill(drawInfo.bgColor, drawInfo.bgAlpha);
+				#if !html5
+				graphics.lineStyle(0, 0, 0);
+				#end
 				
 				if(drawInfo.ellipse<=0)
 				graphics.drawRect(0,0,drawInfo.width,drawInfo.height);
@@ -81,7 +83,9 @@ class RectDraw extends ShapeDraw
 				graphics.beginFill(drawInfo.inBgColor, drawInfo.bgAlpha);
 				var pw:Float = drawInfo.width - drawInfo.paddingLeft - drawInfo.paddingRight;
 				var ph:Float = drawInfo.height - drawInfo.paddingTop - drawInfo.paddingBottom;
-				graphics.lineStyle(0,0,0);
+				#if !html5
+				graphics.lineStyle(0, 0, 0);
+				#end
 				if(drawInfo.inEllipse<=0)
 					graphics.drawRect(drawInfo.paddingLeft,drawInfo.paddingTop,pw,ph);
 				else

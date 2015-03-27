@@ -53,7 +53,7 @@ class FrameTimer extends EventDispatcher
 	public var name:String;
 	
 	/**
-	 * 计时器事件间的延迟 (秒)
+	 * 计时器事件间的延迟 (毫秒)
 	 */
 	public var delay:Int = 0;
 	

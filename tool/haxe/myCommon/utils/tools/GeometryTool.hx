@@ -1,7 +1,6 @@
 package utils.tools;
 
 import flash.geom.Point;
-import game.utils.NumberUtil;
 
 /**
  * 几何工具,里面有一些点、线、面的计算
@@ -18,6 +17,17 @@ class GeometryTool
 		var tt:Point = Point.polar(l,ra);
 		tt.offset(p.x, p.y);
 		return tt;
+	}
+	/**
+	 * 通过点，长度，角度获取某点对于长度的延长线的点
+	 * 注:ra是角度不是孤度
+	 */
+	public static function getExtPot2(px:Int,py:Int,l:Float,ra:Float):Point
+	{
+		var curAngle:Float = angleToRadian(ra);
+		var py:Float = Math.sin(curAngle) * l + py;
+		var px:Float = Math.cos(curAngle) * l + px;
+		return new Point(px,py);
 	}
 	
 	/**

@@ -1,6 +1,7 @@
 ﻿package timerUtils;
 	
-import haxe.Timer;
+import flash.events.Event;
+import flash.Lib;
 
 /**
  * 刷新事件 , 
@@ -20,7 +21,7 @@ class StaticEnterFrame
 	 */
 	public static var updateCount:Int = 0;
 	
-	static var hsTimer:Timer;
+	//static var hsTimer:Timer;
 	
 	public static var gameFps:Int = 24;
 	
@@ -38,9 +39,14 @@ class StaticEnterFrame
 		gameFps = fps;
 		stop();
 		
-		hsTimer = new Timer(Std.int(1000/fps));
-		hsTimer.run = update;
+		//hsTimer = new Timer(Std.int(1000/fps));
+		//hsTimer.run = update;
 		runing = true;
+		
+		
+		Lib.current.removeEventListener(Event.ENTER_FRAME,update);
+		Lib.current.addEventListener(Event.ENTER_FRAME,update);
+		
 	}
 	
 	/**
@@ -50,16 +56,18 @@ class StaticEnterFrame
 	{
 		if (!runing)
 		return;
-		if (hsTimer != null)
-		hsTimer.stop();
+		//if (hsTimer != null)
+		//hsTimer.stop();
 		runing = false;
+		
+		Lib.current.removeEventListener(Event.ENTER_FRAME,update);
 	}
 	
 	/**
 	 * 每帧遍历刷新一次
 	 * @param e
 	 */		
-	private static function update():Void 
+	private static function update(e:Event=null):Void 
 	{
 		for (fun in _listenerLs) 
 		{
@@ -193,7 +201,6 @@ class StaticEnterFrame
 		
 		if (nextFuncLs.length == 0)
 		addFrameListener(onNextTransit);
-		//_shape.addEventListener(Event.ENTER_FRAME,onNextTransit);
 		
 		nextFuncLs.push(backFun);
 	}
@@ -244,7 +251,6 @@ class StaticEnterFrame
 		
 		if (nextFuncLs.length == 0)
 		removeFrameListener(onNextTransit);
-		//_shape.removeEventListener(Event.ENTER_FRAME,onNextTransit);
 	}
 	
 	//----------------------------------
@@ -266,10 +272,11 @@ class StaticEnterFrame
 	public static function dipose():Void
 	{
 		_listenerLs = null;
-		if(hsTimer != null)
-		{
-			hsTimer.stop();
-			hsTimer = null;
-		}
+		//if(hsTimer != null)
+		//{
+			//hsTimer.stop();
+			//hsTimer = null;
+		//}
+		stop();
 	}
 }

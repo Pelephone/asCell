@@ -133,7 +133,7 @@ class SList<T> extends Component
 	 */
 	public function getItem(index:Int):SItem
 	{
-		if (itemLs.length > index)
+		if (itemLs.length <= index)
 		return null;
 		return itemLs[index];
 	}
@@ -141,7 +141,7 @@ class SList<T> extends Component
 	/**
 	 * 子项类
 	 */
-	public var itemClass:Class<SItem>;
+	public var itemClass:Class<SItem> = null;
 	
 	/**
 	 * 创建子项
@@ -180,6 +180,14 @@ class SList<T> extends Component
 	public function invertSelect():Void
 	{
 		_selectModel.invertSelect(itemLs.length);
+	}
+	
+	/**
+	 * 清除所有选中项
+	 */
+	public function removeAllSelect():Void
+	{
+		_selectModel.removeAllSelect();
 	}
 	
 	/**

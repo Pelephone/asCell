@@ -178,7 +178,7 @@ class StyleCreator
 	{
 		var rect:RectDraw = new RectDraw();
 		rect.name = "scrollBg";
-		rect.bgColor = 0x2A2A2A;
+		rect.bgColor = 0xA0A0A1;
 		rect.width = 10;
 		rect.height = 80;
 		var rect2:RectDraw = new RectDraw();

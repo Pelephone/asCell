@@ -2,6 +2,7 @@ package sparrowGui.components;
 
 import flash.text.TextField;
 import flash.text.TextFieldType;
+import flash.text.TextFormat;
 import sparrowGui.skinStyle.TextStyle;
 
 /**
@@ -28,6 +29,19 @@ class STextField extends TextField
 	function initTextFormat()
 	{
 		this.defaultTextFormat = TextStyle.getInstance().normalFormat;
+	}
+	
+	/**
+	 * 设置字号
+	 * @param	size
+	 */
+	public function setFontSize(size:Int = 12)
+	{
+		var tfm:TextFormat = this.defaultTextFormat;
+		if (tfm.size == size)
+		return;
+		tfm.size = size;
+		this.defaultTextFormat = tfm;
 	}
 	
 	/**

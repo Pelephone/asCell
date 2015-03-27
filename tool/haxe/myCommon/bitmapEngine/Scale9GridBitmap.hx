@@ -167,7 +167,9 @@ class Scale9GridBitmap extends Sprite
 		if (_source == null || _scale9 == null)
 		return;
 		
-		if ((oldWidth == _width && oldHeight == _height) || (_width < 0 && _height < 0))
+		var reWidth:Bool = (_width == oldWidth || _width < 0);
+		var reHeight:Bool = (_height == oldHeight || _height < 0);
+		if (reWidth && reHeight)
 		{
 			setShowBmp(_source);
 			return;
@@ -183,9 +185,9 @@ class Scale9GridBitmap extends Sprite
 		var pt:Point = new Point(0, 0);
 		var col:Int = xAry.length;
 		var row:Int = yAry.length;
-		if (_width == oldWidth || _width < 0)
+		if (reWidth)
 		col = 1;
-		if (_height == oldHeight || _height < 0)
+		if (reHeight)
 		row = 1;
 		
 		for (j in 0...row)
@@ -435,7 +437,7 @@ class Scale9GridBitmap extends Sprite
 	 * 皮肤id
 	 */
 	public var bgSrc(get,set):String;
-	var _bgSrc:String;
+	var _bgSrc:String = "";
 	function get_bgSrc():String
 	{
 		return _bgSrc;
@@ -447,7 +449,7 @@ class Scale9GridBitmap extends Sprite
 		_bgSrc = value;
 		_source = null;
 		if (_bgSrc != null)
-			source = Assets.getBitmapData(_bgSrc);
+		source = Assets.getBitmapData(_bgSrc);
 		
 		return _bgSrc;
 	}

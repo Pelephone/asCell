@@ -63,6 +63,7 @@ class FullScreenDraw extends Sprite
 				tmpStg.removeEventListener(Event.RESIZE, onStageResize);
 				tmpStg.addEventListener(Event.RESIZE, onStageResize);
 				//StageMgr.registerResizeListener(onChangeRect);
+				onStageResize();
 			}
 			case Event.REMOVED_FROM_STAGE:
 			{
@@ -92,10 +93,11 @@ class FullScreenDraw extends Sprite
 		tmpt.x = p.stage.stageWidth;
 		tmpt.y = p.stage.stageHeight;
 		var stageWH:Point = p.globalToLocal(tmpt);
-		width = stageWH.x - paddingLeft - paddingRight;
-		height = stageWH.y - paddingTop - paddingButtom;
-		x = paddingLeft;
-		y = paddingTop;
+		var lr:Point = p.globalToLocal(new Point());
+		width = stageWH.x - lr.x - paddingLeft - paddingRight;
+		height = stageWH.y - lr.y - paddingTop - paddingButtom;
+		x = lr.x + paddingLeft;
+		y = lr.y + paddingTop;
 	}
 	
 	
@@ -132,7 +134,7 @@ class FullScreenDraw extends Sprite
 	
 	public var drawColor:Int = 0x000000;
 	
-	function skinDraw():Void
+	public function skinDraw():Void
 	{
 		var gp:Graphics = graphics;
 		gp.clear();
