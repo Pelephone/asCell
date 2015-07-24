@@ -1,8 +1,10 @@
 package bitmapEngine;
 
+import asCachePool.interfaces.IRecycle;
 import flash.display.Bitmap;
 import flash.display.BitmapData;
 import flash.display.Sprite;
+import flash.events.Event;
 import flash.geom.Matrix;
 import flash.geom.Point;
 import flash.geom.Rectangle;
@@ -13,7 +15,7 @@ import timerUtils.StaticEnterFrame;
  * 支持9格缩放的位图(生成的位图bitmapData数据做有缓存处理)
  * @author Pelephone
  */
-class Scale9GridBitmap extends Sprite
+class Scale9GridBitmap extends Sprite implements IRecycle
 {
 	public function new(sourceImg : BitmapData = null, tScale9Grid : Rectangle = null)
 	{
@@ -30,6 +32,28 @@ class Scale9GridBitmap extends Sprite
 		this.scale9 = tScale9Grid;
 		bmpMap = new Map<Int,Bitmap>();
 		setMouseEvt(false);
+		
+		#if html5
+		safeSide = 1;
+		#elseif android
+		safeSide = 1;
+		#else
+		safeSide = 0;
+		#end
+	}
+	
+	var expireClip:DspExpire = null;
+	private function onRestore(e:Event):Void 
+	{
+		needBuildSlice = true;
+		drawBmpd();
+	}
+	
+	private function onExpire(e:Event):Void 
+	{
+		if (this.root != null)
+		return;
+		clearBmp();
 	}
 	
 	/** 下帧渲染之前用于计算长宽的图形
@@ -80,10 +104,10 @@ class Scale9GridBitmap extends Sprite
 		
 		if (dw < 1 || dh < 1)
 		{
-			visible = false;
+			//visible = false;
 			return;
 		}
-		visible = true;
+		//visible = true;
 		
 		if (oldWidth == dw && oldHeight == dh)
 		{
@@ -150,10 +174,14 @@ class Scale9GridBitmap extends Sprite
 	var toBmpd:BitmapData;
 	#end
 	
-	function setShowBmp(bd:BitmapData):Void 
+	function setShowBmp(bd:BitmapData):Bitmap 
 	{
 		var showBmp:Bitmap = getBmpCR(0);
+		if (showBmp.bitmapData != bd)
 		showBmp.bitmapData = bd;
+		showBmp.scaleX = 1;
+		showBmp.scaleY = 1;
+		return showBmp;
 	}
 	
 	// 是否需要建立切片
@@ -224,6 +252,9 @@ class Scale9GridBitmap extends Sprite
 		resizeDraw();
 	}
 	
+	// 加多一些安全边，防止9切片显示缝隙，如果透明底就不要加
+	public var safeSide:Int = 1;
+	
 	// 跟据长宽重设切片
 	private function resizeDraw()
 	{
@@ -255,10 +286,10 @@ class Scale9GridBitmap extends Sprite
 			bottomHeight = dh * 0.5;
 		}
 		
-		var xAry:Array<Float> = [0,sx,(dw - rightWidth)];
-		var widthAry:Array<Float> = [sx,smw,rightWidth];
-		var yAry:Array<Float> = [0,sy,(dh - bottomHeight)];
-		var heightAry:Array<Float> = [sy, smh, bottomHeight];
+		var xAry:Array<Float> = [0,(sx-safeSide),(dw - rightWidth)];
+		var widthAry:Array<Float> = [sx,(smw+2*safeSide),rightWidth];
+		var yAry:Array<Float> = [0,(sy-safeSide),(dh - bottomHeight)];
+		var heightAry:Array<Float> = [sy, (smh+2*safeSide), bottomHeight];
 		
 		//var xAry:Array<Float> = [0,_scale9.x,(dw - rightWidth)];
 		//var widthAry:Array<Float> = [_scale9.x,(dw - _scale9.x - rightWidth),rightWidth];
@@ -315,17 +346,29 @@ class Scale9GridBitmap extends Sprite
 		oldHeight = _source.height;
 		
 		#if html5
-			StaticEnterFrame.addNextCall(buildSlice);
+			nextCallDraw(buildSlice);
 		#else
 		
 			if (isMoreBmp)
-			StaticEnterFrame.addNextCall(buildSlice);
+			nextCallDraw(buildSlice);
 			else
 			calcRessize();
 			
 		#end
 	}
 	
+	// 因为下帧建立切片会导致当前帧不能正确获取长宽数据
+	// 所以这里做个特殊处理
+	function nextCallDraw(fun:Void->Void)
+	{
+		if (width > 0 && height > 0 && _source!=null)
+		{
+			var showBmp:Bitmap = setShowBmp(_source);
+			showBmp.width = width;
+			showBmp.height = height;
+		}
+		StaticEnterFrame.addNextCall(fun);
+	}
 	
 	/**
 	 * 未拉申时的宽度
@@ -372,7 +415,7 @@ class Scale9GridBitmap extends Sprite
 	{
 		#if html5
 			if (needBuildSlice)
-			StaticEnterFrame.addNextCall(buildSlice);
+			nextCallDraw(buildSlice);
 			else
 			resizeDraw();
 		#else
@@ -380,14 +423,14 @@ class Scale9GridBitmap extends Sprite
 		if (isMoreBmp)
 		{
 			if (needBuildSlice)
-			StaticEnterFrame.addNextCall(buildSlice);
+			nextCallDraw(buildSlice);
 			else
 			resizeDraw();
 		}
 		else
 		{
-			if(isNextDraw)
-			StaticEnterFrame.addNextCall(buildScaledImage);
+			if (isNextDraw)
+			nextCallDraw(buildScaledImage);
 			else
 			buildScaledImage();
 		}
@@ -425,6 +468,12 @@ class Scale9GridBitmap extends Sprite
 			_scale9 = rct; 
 		}
 		drawBmpd();
+		if(expireClip == null && _source != null)
+		{
+			expireClip = new DspExpire(this);
+			expireClip.addEventListener(DspExpire.EXPIRE, onExpire);
+			expireClip.addEventListener(DspExpire.RESTORE, onRestore);
+		}
 		return _source;
 	}
 	
@@ -611,16 +660,36 @@ class Scale9GridBitmap extends Sprite
 		for (k in bmpMap.keys())
 		{
 			var itm:Bitmap = bmpMap.get(k);
+			#if imgMode
 			if(itm.bitmapData != null && itm.bitmapData != _source)
 			itm.bitmapData.dispose();
+			#end
 			itm.bitmapData = null;
 			bmpMap.remove(k);
+			itm.parent.removeChild(itm);
 		}
 	}
 	
 	public function dispose()
 	{
 		clearBmp();
+		if(expireClip != null)
+		{
+			expireClip.dispose();
+			expireClip.removeEventListener(DspExpire.EXPIRE, onExpire);
+			expireClip.removeEventListener(DspExpire.RESTORE, onRestore);
+			expireClip = null;
+		}
+		
+		#if !html5
+		if (toBmpd != null)
+		{
+			toBmpd.dispose();
+			toBmpd = null;
+		}
+		StaticEnterFrame.removeNextCall(buildScaledImage);
+		#end
+		StaticEnterFrame.removeNextCall(buildSlice);
 		_scale9 = null;
 		bgSrc = null;
 		_source = null;

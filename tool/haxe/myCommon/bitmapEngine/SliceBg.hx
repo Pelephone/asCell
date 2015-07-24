@@ -88,6 +88,7 @@ class SliceBg extends Sprite
 			if (!bigSliceMap.exists(key))
 			{
 				bsb = new Bitmap();
+				bsb.smoothing = true;
 				bsb.x = scol * sliceRect.width;
 				bsb.y = srow * sliceRect.height;
 				addChild(bsb);
@@ -112,6 +113,7 @@ class SliceBg extends Sprite
 		if(!bigSliceMap.exists(key))
 		{
 			bsb = new Bitmap();
+			bsb.smoothing = true;
 			bsb.x = btx * bsw * sliceRect.width;
 			bsb.y = bty * bsh * sliceRect.height;
 			addChild(bsb);
@@ -139,4 +141,21 @@ class SliceBg extends Sprite
 	private var bgColor:Int = 0x000000;
 	
 	var bigSliceMap:Map<String,Bitmap>;
+	
+	
+	// 销毁对象清位图数据
+	public function dispose()
+	{
+		for (itm in bigSliceMap.keys()) 
+		{
+			var bmp:Bitmap = bigSliceMap.get(itm);
+			if (bmp.bitmapData != null)
+			{
+				bmp.bitmapData.dispose();
+				bmp.bitmapData = null;
+			}
+		}
+		bigSliceMap = new Map<String,Bitmap>();
+		hasSliceKeys = [];
+	}
 }

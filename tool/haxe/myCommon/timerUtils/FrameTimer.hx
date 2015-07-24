@@ -112,7 +112,7 @@ class FrameTimer extends EventDispatcher
 		lastPerTime = Std.int(Timer.stamp()*1000);
 		_running = true;
 		//_shap.addEventListener(Event.ENTER_FRAME, onEnterHandler);
-		Lib.current.stage.addEventListener(Event.ENTER_FRAME, onEnterHandler);
+		Lib.current.addEventListener(Event.ENTER_FRAME, onEnterHandler);
 	}
 	
 	/**
@@ -121,11 +121,11 @@ class FrameTimer extends EventDispatcher
 	public function stop()
 	{
 		_running = false;
-		Lib.current.stage.removeEventListener(Event.ENTER_FRAME,onEnterHandler);
+		Lib.current.removeEventListener(Event.ENTER_FRAME,onEnterHandler);
 	}
 	
 	/**
-	 * 重新开始
+	 * 重新开始 (毫秒)
 	 * @param repeat
 	 */
 	public function restart(delay:Int=1,repeat:Int=0)

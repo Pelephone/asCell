@@ -148,14 +148,41 @@ class ArrayTool
 		#else
 		for (i in 0...list.length)
 		{
-			//if(Reflect.compare(list[i], value))
 			if (list[i] == value)
 			return i;
+/*			#if html5
+			#else
+			if(Reflect.compare(list[i], value))
+			return i;
+			#end*/
 		}
 		return -1;
 		#end
 	}
 	
+	/**
+	 * 如果映射里面有值则返回，没有就新建一个加入映射
+	 */
+	public static function getCreateMap<T,V>(map:Map<T,V>,key:T,cls:Class<V>):V
+	{
+		if (map.exists(key))
+		return map.get(key);
+		var vo:V = Type.createInstance(cls, []);
+		map.set(key, vo);
+		return vo;
+	}
+	
+	/**
+	 * 如果映射里面有数组则返回，没有就新建一个加入新数组
+	 */
+	public static function getCreateMap2<T>(map:Map<T,Array<Dynamic>>,key:T):Array<Dynamic>
+	{
+		if (map.exists(key))
+		return map.get(key);
+		var ary:Array<Dynamic> = [];
+		map.set(key, ary);
+		return ary;
+	}
 	
 	/**
 	 * 清空数组
@@ -171,6 +198,19 @@ class ArrayTool
 		{
 			arr.pop();
 		}*/
+	}
+	
+	/**
+	 * 数字从小到大排序
+	 */
+	public static function numberSort(f1:Int,f2:Int):Int
+	{
+		if (f1 < f2)
+		return -1;
+		else if (f1 > f2)
+		return 1;
+		else
+		return 1;
 	}
 	
 	/**
@@ -208,9 +248,9 @@ class ArrayTool
 	 */ 		
 	public static function quickSort(arr:Array<Dynamic>, low:Int, high:Int):Void
 	{
-		var i:Int;
-		var j:Int;
-		var x:Int;
+		var i:Int = 0;
+		var j:Int = 0;
+		var x:Int = 0;
 		
 		if (low < high) { //这个条件用来结束递归
 			

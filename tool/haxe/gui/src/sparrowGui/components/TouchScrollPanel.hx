@@ -139,7 +139,7 @@ class TouchScrollPanel extends Component
 			toY = validaToY(toY);
 		}
 		
-		if (scrollBound.width > _width)
+		if (scrollBound.width > _width && isHDrag)
 		{
 			var endx:Float = lastMPt.x + (this.mouseX - lastMPt.x) * upSpeed;
 			var dx:Float = endx - downMPt.x;
@@ -152,6 +152,11 @@ class TouchScrollPanel extends Component
 		
 		upPt = new Point(toX, toY);
 	}
+	
+	/** 是否可以左右拖 */
+	public var isHDrag:Bool = true;
+	/** 是否可以上下拖 */
+	public var isVDrag:Bool = true;
 	
 	var vy:Float = 0;
 	
@@ -201,7 +206,7 @@ class TouchScrollPanel extends Component
 		else
 		yComplete = true;
 		
-		if (toX != scrollDsp.x && scrollDsp.width > _width)
+		if (isHDrag && toX != scrollDsp.x && scrollDsp.width > _width)
 		{
 			if (upPt == null || Math.abs(scrollDsp.x - toX) < 1.2)
 			{
@@ -323,6 +328,7 @@ class TouchScrollPanel extends Component
 		this.scrollRect = maskRect;
 		
 		invalidateDraw();
+		if(scrollDsp != null)
 		scrollDsp.y = validaToY(scrollDsp.y);
 	}
 	
@@ -470,6 +476,14 @@ class TouchScrollPanel extends Component
 		
 		if (scrollDsp.height > height)
 		scrollSlider.height = height * height / scrollDsp.height;
+	}
+	
+	// 数据更新了重围滚动
+	public function resetScroll()
+	{
+		removeEventListener(Event.ENTER_FRAME, onEnterFrame);
+		scrollBg.alpha = 0;
+		scrollSlider.alpha = 0;
 	}
 	
 	// 开始滚动的左上点。

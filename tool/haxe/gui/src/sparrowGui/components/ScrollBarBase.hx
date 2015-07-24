@@ -4,7 +4,6 @@ import flash.display.DisplayObject;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import haxe.Timer;
-import sparrowGUI.components.Component;
 import sparrowGui.skinStyle.StyleKeys;
 
 

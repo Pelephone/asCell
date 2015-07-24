@@ -26,10 +26,11 @@ import sparrowGui.SparrowUtil;
  */
 class FullScreenDraw extends Sprite
 {
-	public function new(bgColor:Int=0x000000)
+	public function new(bgColor:Int=0x000000,sAlpha:Float=0.5)
 	{
 		super();
 		drawColor = bgColor;
+		showAlpha = sAlpha;
 		tmpt = new Point();
 		skinDraw();
 		
@@ -67,6 +68,9 @@ class FullScreenDraw extends Sprite
 			}
 			case Event.REMOVED_FROM_STAGE:
 			{
+				if (tmpStg == null)
+				tmpStg = this.stage;
+				
 				tmpStg.removeEventListener(Event.RESIZE, onStageResize);
 				//StageMgr.removeResizeListener(onChangeRect);
 				tmpStg = null;
@@ -81,10 +85,11 @@ class FullScreenDraw extends Sprite
 	
 	function onStageResize(e:Event=null)
 	{
-		SparrowUtil.addNextCall(nextResize);
+		//SparrowUtil.addNextCall(nextResize);
+		nextResize();
 	}
 	
-	function nextResize()
+	public function nextResize()
 	{
 		if (this.stage == null || this.parent == null)
 		return;
@@ -143,6 +148,16 @@ class FullScreenDraw extends Sprite
 		gp.drawRect(0,0,10,10);
 		gp.endFill();
 		alpha = showAlpha;
+	}
+	
+	public function dispose()
+	{
+		graphics.clear();
+		if (this.stage != null)
+		this.stage.removeEventListener(Event.RESIZE, onStageResize);
+		removeEventListener(Event.ADDED_TO_STAGE,onSkinInit);
+		removeEventListener(Event.ADDED_TO_STAGE,onToStage);
+		removeEventListener(Event.REMOVED_FROM_STAGE, onToStage);
 	}
 	
 	/**

@@ -233,7 +233,7 @@ class StaticEnterFrame
 	/**
 	 * 当前帧执行到了第N条函数
 	 */
-	private static var curFunIndex:Int;
+	private static var curFunIndex:Int = 0;
 	
 	/**
 	 * 调用下帧执行的方法中转
@@ -242,10 +242,12 @@ class StaticEnterFrame
 	{
 		curFuncLs = nextFuncLs.splice(0,nextFuncLs.length);
 		
-		for (curFunIndex in 0...curFuncLs.length) 
+		/*for (curFunIndex in 0...curFuncLs.length) 
 		{
 			curFuncLs[curFunIndex]();
-		}
+		}*/
+		while (curFuncLs.length > 0)
+		curFuncLs.pop()();
 		
 		curFuncLs = [];
 		

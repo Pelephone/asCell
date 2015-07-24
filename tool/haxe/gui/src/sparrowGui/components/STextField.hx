@@ -16,6 +16,7 @@ class STextField extends TextField
 		super();
 		setMouseEnable(false);
 		
+		width = 180;
 		height = 32;
 		
 		// 下面这两句是调试移位置时用，发布项目要注掉。

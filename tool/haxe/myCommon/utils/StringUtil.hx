@@ -84,4 +84,17 @@ class StringUtil
 		}
 		return "";
 	}
+	
+	/**
+	 *  判断字符串是否为空
+	 */
+	public static function isEmpty(str:String):Bool
+	{
+		if (!Std.is(str, String))
+		return true;
+		else if (str == null || str == "" || str == "0")
+		return true;
+		else
+		return false;
+	}
 }

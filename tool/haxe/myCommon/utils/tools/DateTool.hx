@@ -21,6 +21,33 @@ class DateTool
 	}
 	
 	/**
+	 * 计算当天时间戳(秒)
+	 */
+	public static function curDayTime():Float
+	{
+		var t:Float = currentTimeMillis() * 0.001;
+		return calcDayZeroTime(t);
+	}
+	
+	/**
+	 * 计算某时间戳0点时间(s)
+	 */
+	public static function calcDayZeroTime(time:Float):Float
+	{
+		var iNow:Float = Math.round(time);
+		var curSec:Float = (iNow + 8 * 3600) % 86400;
+		return iNow - curSec;
+	}
+	
+	/**
+	 * 获取当前时间的时间戳
+	 
+	public static function getNowTime():Int
+	{
+		
+	}*/
+	
+	/**
 	 * 将Date转换成时间戳
 	 */	
 	public static function date2Time(da:Date):Int
@@ -101,7 +128,7 @@ class DateTool
 	{
 		var leaveTime:Int = time;
 		var leaveTime_str:String = "";
-		var val:Int;
+		var val:Int = 0;
 		if (leaveTime >= 60*60*24*30) {
 			leaveTime_str +=  Math.floor(leaveTime / (60*60*24*30))+"个月";
 			if ((leaveTime % (60*60*24*30)) >= 60*60*24) {

@@ -218,12 +218,12 @@ class Scale9GridBitmap3 extends Sprite
 	/**
 	 * 未拉申时的宽度
 	 */
-	private var oldWidth:Int;
+	private var oldWidth:Int = 0;
 	
 	/**
 	 * 未拉申时的高度
 	 */
-	private var oldHeight:Int;
+	private var oldHeight:Int = 0;
 	
 	/**
 	 * 9切片

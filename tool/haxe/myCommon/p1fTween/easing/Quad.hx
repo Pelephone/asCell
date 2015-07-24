@@ -1,7 +1,7 @@
 package p1fTween.easing;
 
 	
-public class Quad {
+class Quad {
 
 	inline public static var power:Int = 1;
 	

@@ -92,6 +92,16 @@ class SparrowUtil
 		return true;
 	}
 	
+	/**
+	 * 删除下帧执行
+	 */
+	public static function removeNextCall(backFun:Void->Void):Void
+	{
+		var tid:Int = indexOf(nextFuncLs, backFun);
+		if (tid >= 0)
+		nextFuncLs.splice(tid, 1);
+	}
+	
 	static var runCount:Int = 0;
 	//static var shap:Sprite = new Sprite();
 	static var timer:Timer;
@@ -111,7 +121,7 @@ class SparrowUtil
 	/**
 	 * 当前帧执行到了第N条函数
 	 */
-	private static var curFunIndex:Int;
+	private static var curFunIndex:Int = 0;
 	
 	/**
 	 * 调用下帧执行的方法中转

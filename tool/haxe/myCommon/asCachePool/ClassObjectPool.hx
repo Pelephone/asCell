@@ -158,6 +158,7 @@ class ClassObjectPool
 	 */
 	private function removePoolInf(resObj:ICacheInfo)
 	{
+		var bdy:Dynamic = resObj.getBody();
 		resObj.setBody( null );
 		var clsName:String = resObj.getKeyName();
 		resObj.dispose();
@@ -168,7 +169,7 @@ class ClassObjectPool
 			return;
 		}
 		arr.splice(arr.indexOf(resObj), 1)[0];
-		objLs.splice(objLs.indexOf(resObj.getBody()), 1)[0];
+		objLs.splice(objLs.indexOf(bdy), 1)[0];
 		
 		var linkId:Int = cacheLink.indexOf(resObj);
 		cacheLink.splice(linkId, 1)[0];
@@ -277,7 +278,10 @@ class ClassObjectPool
 		{
 			var resObj:ICacheInfo = cacheLink[cacheLink.length-1];
 			if(Std.is(resObj.getBody(), BitmapData) && diposeBitmapDate)
-				(cast resObj.getBody()).dispose();
+			{
+				var bd:BitmapData = cast resObj.getBody();
+				bd.dispose();
+			}
 			
 			removePoolInf(resObj);
 		}

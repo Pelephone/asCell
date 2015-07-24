@@ -50,6 +50,19 @@ class DisplayTool
 	}
 	
 	/**
+	 * 通过名字移除子项
+	 */
+	public static function removeByName(dspc:DisplayObjectContainer,childName:String):Void
+	{
+		if (dspc == null)
+		return;
+		var dsp:DisplayObject = dspc.getChildByName(childName);
+		if (dsp == null)
+		return;
+		dspc.removeChild(dsp);
+	}
+	
+	/**
 	 * 使disp里面的所有子对象按一定规则排序
 	 * @param disp		要排序的容器
 	 * @param swapArg	跟椐这些参数排序(一定要是disp子对象里面有的属性),如 y
@@ -733,6 +746,23 @@ class DisplayTool
 			return sp;
 		}
 		return null;
+	}
+	
+	/**
+	 * 从显示对象里面获取子项，如果存在就返回，不存在则创建一个加入里面后返回
+	 */
+	public static function getCreateDsp<T:DisplayObject>(dspc:DisplayObjectContainer,dspcls:Class<T>,dspName:String):T
+	{
+		var dsp:DisplayObject = dspc.getChildByName(dspName);
+		if (dsp == null)
+		{
+			var res:T = Type.createEmptyInstance(dspcls);
+			res.name = dspName;
+			dspc.addChild(res);
+			return res;
+		}
+		else
+		return cast dsp;
 	}
 	
 	/**

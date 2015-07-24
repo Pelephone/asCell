@@ -5,7 +5,6 @@ import flash.display.Sprite;
 import flash.events.Event;
 import flash.events.MouseEvent;
 import flash.geom.Rectangle;
-import sparrowGUI.components.Component;
 
 /**
 	var sp:ScrollPanel = new ScrollPanel();

@@ -159,7 +159,7 @@ class GeometryTool
 	}
 	
 	/**
-	 * 通过两点计算其角度
+	 * 通过两点计算其角孤度
 	 * @return 介于负二分之 pi 和正二分之 pi 之间的一个数字
 	 */
 	public static function getAngleByPt( x1:Float, y1:Float, x2:Float, y2:Float):Float
@@ -306,11 +306,20 @@ class GeometryTool
 	 */
 	public static function floatDecimal(num:Float,index:Int=DEFAULT_DIGIT):Float
 	{
+		var fStr:String = Std.string(num);
+		var tid:Int = fStr.indexOf(".");
+		if (tid < 0)
+		return num;
+		if (tid >= 0)
+		{
+			if (fStr.split(".")[1].length <= index)
+			return num;
+		}
 		// 防止益出，如果要保留的位数太多，num2会很大，容易益出
-		if (index < 4)
+		if (index < 5)
 		{
 			var num2:Float = Math.pow(10, index);
-			return Math.round(num * num2) / num2;
+			return Math.floor(num * num2) / num2;
 		}
 		
 		var str:String = Std.string(num);
@@ -318,6 +327,6 @@ class GeometryTool
 		if (tid < 0)
 		return num;
 		else
-		return Std.parseFloat(str.substring(0, (tid + DEFAULT_DIGIT)));
+		return Std.parseFloat(str.substring(0, (tid + index)));
 	}
 }

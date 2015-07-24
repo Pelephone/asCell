@@ -75,12 +75,16 @@ class SList<T> extends Component
 		{
 			isDataChange = false;
 			removeAllItems();
-			for (item in _data)
+			if (_data != null)
 			{
-				var sitm:SItem = createItem(item);
-				sitm.name = "item_" + itemLs.length;
-				sitm.setItemIndex(itemLs.length);
-				addItem(sitm,item);
+				
+				for (item in _data)
+				{
+					var sitm:SItem = createItem(item);
+					sitm.name = "item_" + itemLs.length;
+					sitm.setItemIndex(itemLs.length);
+					addItem(sitm,item);
+				}
 			}
 		}
 		onSelectDataChange();
@@ -199,10 +203,18 @@ class SList<T> extends Component
 		lastClickItem = cast e.currentTarget;
 		_selectModel.setSelect(lastClickItem.getItemIndex());
 		//sitm.label = sitm.name + "|" + sitm.labelText.width;
+		
+		dispatchEvent(new Event(ITEM_CLICK));
 	}
 	
+	// 子型被点击
+	inline public static var ITEM_CLICK:String = "item_click";
+	
 	// 最后点击的项
-	public var lastClickItem:SItem;
+	var lastClickItem:SItem;
+	
+	// 上次选中的对象
+	public var lastSelectIndex:Int = 0;
 	
 	/**
 	 * 选中数据改变
@@ -222,6 +234,7 @@ class SList<T> extends Component
 		}
 		
 		dispatchEvent(new Event(Event.SELECT));
+		lastSelectIndex = _selectModel.getSelectIndex();
 	}
 	
 	//---------------------------------------------------
@@ -388,7 +401,7 @@ class SList<T> extends Component
 	 * 子项数量
 	 * @return 
 	 */
-	function getItemLength():Int 
+	public function getItemLength():Int 
 	{
 		return itemLs.length;
 	}

@@ -2,6 +2,7 @@ package sparrowGui.skinStyle;
 import flash.text.Font;
 import flash.text.TextFormat;
 import flash.text.TextFormatAlign;
+import openfl.Assets;
 
 /**
  * 文本样式
@@ -59,11 +60,12 @@ class TextStyle
 	public static function createTextFormat():TextFormat
 	{
 		#if android
-		return new TextFormat(new Font("/system/fonts/DroidSansFallback.ttf").fontName);
+		return new TextFormat(new Font("/system/fonts/DroidSansFallback.ttf").fontName,20,0xFFFFFF);
 		#elseif neko
-		return new TextFormat("simsun");
+		//return new TextFormat(Assets.getFont("SIMYOU").fontName,20,0xFFFFFF);
+		return new TextFormat(new Font("SIMYOU").fontName,20,0xFFFFFF);
 		#else
-		return new TextFormat("微软雅黑");
+		return new TextFormat("微软雅黑",20,0xFFFFFF);
 		#end
 	}
 }

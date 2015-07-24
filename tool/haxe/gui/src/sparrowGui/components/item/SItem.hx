@@ -345,6 +345,8 @@ class SItem extends Component
 	
 	override public function dispose():Void
 	{
+		SparrowUtil.removeNextCall(parseData);
+		SparrowUtil.removeNextCall(stateRender);
 		_itemIndex = -1;
 		_data = null;
 		if(this.parent != null)
